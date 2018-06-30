@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import './App.css';
 import AuthFlowScreen from "./navigation/AuthFlowScreen.js";
+import MainScreen from "./screens/MainScreen.js";
 import firebase from 'firebase';
 
 // Initialize Firebase
@@ -16,10 +17,32 @@ firebase.initializeApp(config);
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this._bootstrapAsync();
+    this.state = {
+        signedin: false,
+    };
+}
+
+ // Fetch the token from storage then navigate to our appropriate place
+ _bootstrapAsync = async () => {
+  const userToken = await localStorage.getItem("userToken");
+  this.setState({ signedin: userToken === "true" ? true : false});
+};
+
   render() {
+    console.log(this.state.signedin);
+    if(!this.state.signedin){
+      return (
+        <AuthFlowScreen/>
+     );
+    }
+   else{
     return (
-       <AuthFlowScreen/>
-    );
+      <MainScreen/>
+   );
+   }
   }
 }
 
