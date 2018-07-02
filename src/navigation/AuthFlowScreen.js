@@ -22,28 +22,13 @@ const uiConfig = {
 export default class AuthFlowScreen extends Component {
     constructor(props) {
         super(props);
-        this._initializeAuth();
         this.state = {
             login: false,
         };
     }
 
-    _initializeAuth = async () => {
-        await firebase.auth().onAuthStateChanged((user) => {
-            if (user == null) {
-                // TODO: start sign-in flow
-                alert("Signed off");
-            } else {
-                // TODO: start actual work
-                //alert("Signed on");
-                this.setState({login:true});
-            }
-        });
-    };
+   
 
-    componentWillUnmount= () =>{
-        this.subscriptions.unsubscribe();
-    }
 
   render() {
       if(!this.state.login){

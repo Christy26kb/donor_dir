@@ -19,30 +19,61 @@ firebase.initializeApp(config);
 class App extends Component {
   constructor(props) {
     super(props);
-    this._bootstrapAsync();
+    this._initializeAuth();
+    //this._bootstrapAsync();
     this.state = {
         signedin: false,
+        isloading:true
     };
 }
 
+ _initializeAuth = async () => {
+        await firebase.auth().onAuthStateChanged((user) => {
+            if (user == null) {
+                // TODO: start sign-in flow
+                alert("Signed off");
+                this.setState({isloading:false,signedin:false});
+            } else {
+                // TODO: start actual work
+                //alert("Signed on");
+                this.setState({signedin:true,isloading:false});
+
+            }
+        });
+    };
+
+
  // Fetch the token from storage then navigate to our appropriate place
- _bootstrapAsync = async () => {
+ /*_bootstrapAsync = async () => {
   const userToken = await localStorage.getItem("userToken");
   this.setState({ signedin: userToken === "true" ? true : false});
-};
+};*/
 
   render() {
-    console.log(this.state.signedin);
-    if(!this.state.signedin){
-      return (
-        <AuthFlowScreen/>
-     );
-    }
-   else{
-    return (
-      <MainScreen/>
-   );
-   }
+
+      if(this.state.isloading)
+      {
+        return(
+          <div>
+        <p>Loading</p>
+        </div>
+        );
+      }
+      else{
+
+        if(!this.state.signedin){
+          return (
+            <AuthFlowScreen/>
+        );
+        }
+      else{
+        return (
+          <MainScreen/>
+      );
+      }
+
+      }
+   
   }
 }
 

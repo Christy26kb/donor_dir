@@ -11,6 +11,10 @@ export default class MainScreen extends Component {
     };
 }
 
+_signOut = ()=>{
+firebase.auth().signOut();
+};
+
 _signInAsync = async () => {
     await localStorage.setItem("userToken", "true");
 
@@ -20,6 +24,7 @@ _signInAsync = async () => {
     return (
       <div>
           <h2>MainScreen.js</h2>
+          <h3 onClick={this._signOut}>Logout</h3>
       </div>
     );
   }
