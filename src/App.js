@@ -3,6 +3,7 @@ import './App.css';
 import AuthFlowScreen from "./navigation/AuthFlowScreen.js";
 import MainScreen from "./screens/MainScreen.js";
 import firebase from 'firebase';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Initialize Firebase
 var config = {
@@ -31,7 +32,7 @@ class App extends Component {
         await firebase.auth().onAuthStateChanged((user) => {
             if (user == null) {
                 // TODO: start sign-in flow
-                alert("Signed off");
+                //alert("Signed off");
                 this.setState({isloading:false,signedin:false});
             } else {
                 // TODO: start actual work
@@ -49,13 +50,21 @@ class App extends Component {
   this.setState({ signedin: userToken === "true" ? true : false});
 };*/
 
+componentWillUnmount() {
+  this.unregisterAuthObserver();
+}
+
+
   render() {
+
+    //Device Dimensions.
+    const height=window.screen.height;
 
       if(this.state.isloading)
       {
         return(
-          <div>
-        <p>Loading</p>
+          <div style={{display:'flex',justifyContent:'center',alignItems:'center',marginTop:height/2.8}}>
+          <CircularProgress color="primary" size={50} />
         </div>
         );
       }

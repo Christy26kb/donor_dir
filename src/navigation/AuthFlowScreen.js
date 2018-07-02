@@ -1,7 +1,6 @@
 import React, { Component} from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
-import UserDetailsCollectionScreen from '../screens/UserDetailsCollectionScreen';
 import './AFstyles.css';
 
 
@@ -20,33 +19,15 @@ const uiConfig = {
 
 
 export default class AuthFlowScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            login: false,
-        };
-    }
-
    
-
-
   render() {
-      if(!this.state.login){
+
         return (
             <div className='base-container'>
               <h3 className='header-text'>Join our community</h3>
               <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
             </div>
           );
-      }
-      else{
-        return (
-            <div className='base-container'>
-              <UserDetailsCollectionScreen/>
-            </div>
-          );
-      }
-   
   }
 }
 
