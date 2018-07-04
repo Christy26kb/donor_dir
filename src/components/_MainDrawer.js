@@ -18,7 +18,7 @@ const styles = {
   },
 };
 
-class _MainDrawer extends React.Component {
+class Main_Drawer extends React.Component {
   state = {
     left: false,
   };
@@ -70,8 +70,8 @@ class _MainDrawer extends React.Component {
   }
 }
 
-_MainDrawer.propTypes = {
+Main_Drawer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(_MainDrawer);
+export default withStyles(styles)(Main_Drawer);

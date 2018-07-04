@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Options from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import _MainDrawer from './_MainDrawer.js'
+import Main_Drawer from './_MainDrawer.js'
 const styles = {
   root: {
     flexGrow: 1,
@@ -25,7 +25,7 @@ const styles = {
   },
 };
 
-class _AppBar extends React.Component {
+class App_Bar extends React.Component {
   state = {
     auth: true,
     anchorEl: null,
@@ -52,7 +52,7 @@ class _AppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="sticky" className={classes.appbar}>
           <Toolbar>
-           <_MainDrawer/>
+           <Main_Drawer/>
             <Typography variant="title" color="inherit" className={classes.flex}>
              Donor's Directory
             </Typography>
@@ -92,8 +92,8 @@ class _AppBar extends React.Component {
   }
 }
 
-_AppBar.propTypes = {
+App_Bar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(_AppBar);
+export default withStyles(styles)(App_Bar);
