@@ -1,0 +1,20 @@
+
+/*For Mobile phone screens this rules will applied.*/
+.container{
+    display: 'flex';
+    flex-wrap: 'wrap';
+    flex-direction:'row';
+    margin-block-start: 5%;
+    margin-block-end: 5%;
+  }
+
+  .textField{
+    width:90%;
+  }
+
+/*For Tablets*/
+@media screen and (min-width: 768px) {
+    .textField{
+     width:75%;
+    }
+}

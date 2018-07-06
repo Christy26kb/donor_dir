@@ -1,0 +1,10 @@
+
+    .DonorText{
+      display:'flex';
+      flex-direction:'row';
+      justify-content: flex-start;
+    
+    }
+    .toggle{
+      justify-content: 'flex-end';
+    }
