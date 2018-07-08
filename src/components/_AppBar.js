@@ -12,6 +12,7 @@ import Main_Drawer from './_MainDrawer.js'
 const styles = {
   root: {
     flexGrow: 1,
+    flexWrap:'wrap',
   },
   flex: {
     flex: 1,

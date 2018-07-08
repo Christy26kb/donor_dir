@@ -8,3 +8,6 @@
     .toggle{
       justify-content: 'flex-end';
     }
+    .base{
+      padding-left: 35px;
+    }
