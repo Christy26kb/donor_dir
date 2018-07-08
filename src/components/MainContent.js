@@ -34,7 +34,7 @@ firebase.auth().signOut();
           value="DonorStatus"
         />
          </div>
-          <h3 style={{marginTop:15}}onClick={this._signOut}>Logout</h3>
+          <h3 style={{marginTop:15}} onClick={this._signOut.bind(this)}>Logout</h3>
       </div>
     );
   }

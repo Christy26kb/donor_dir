@@ -51,7 +51,7 @@ class App_Bar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="sticky" className={classes.appbar}>
+        <AppBar position="fixed" className={classes.appbar}>
           <Toolbar>
            <Main_Drawer/>
             <Typography variant="title" color="inherit" className={classes.flex}>

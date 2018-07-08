@@ -9,5 +9,6 @@
       justify-content: 'flex-end';
     }
     .base{
+      margin-top: 100px;
       padding-left: 35px;
     }

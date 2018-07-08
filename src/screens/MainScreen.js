@@ -17,6 +17,7 @@ export default class MainScreen extends Component {
     //this._signInAsync();
     this.state = {
        DonorStatus:false,
+       //An initial fetching func will set this state before rendering.
     };
 }
 
@@ -29,6 +30,7 @@ firebase.auth().signOut();
 
 };*/
 
+//A listener will be mounted for updating parent state according to changes in child components. 
   render() {
     return (
       <div>
