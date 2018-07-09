@@ -30,8 +30,8 @@ firebase.auth().signOut();
          <h4 className='toggle'>Donor's status (Available/Non-Available)</h4>
          <Switch
           checked={this.state.DonorStatus}
-          onChange={()=>this.setState({DonorStatus:true ?false :true})}
-          value="DonorStatus"
+          onChange={()=>this.setState({DonorStatus:true})}
+          value={this.state.DonorStatus}
         />
          </div>
           <h3 style={{marginTop:15}} onClick={this._signOut.bind(this)}>Logout</h3>

@@ -14,21 +14,36 @@ import './MScreen.css'
 export default class MainScreen extends Component {
   constructor(props) {
     super(props);
-    //this._signInAsync();
+    this.profileInfoTokenFetch();
     this.state = {
-       DonorStatus:false,
-       //An initial fetching func will set this state before rendering.
+       DonorProfile:false,
     };
 }
+
+
+updateDonorProfileState=()=>{
+
+  this.setState({DonorProfile:true});
+
+};
+
 
 _signOut = ()=>{
 firebase.auth().signOut();
 };
 
-/*_signInAsync = async () => {
-    await localStorage.setItem("userToken", "true");
 
-};*/
+profileInfoTokenFetch = async () => {
+  const tok = await localStorage.getItem("userToken");
+  if(tok=="true")
+  {
+    this.setState({DonorProfile:true});
+  }
+  else if( tok==null||tok=="false")
+  {
+    this.setState({DonorProfile:false});
+  }
+};
 
 //A listener will be mounted for updating parent state according to changes in child components. 
   render() {
@@ -36,7 +51,7 @@ firebase.auth().signOut();
       <div>
         <_AppBar/>
         <div className='base'>
-        {this.state.DonorStatus ? <MainContent/> : <UserDetailsCollection/>}
+        {this.state.DonorProfile ? <MainContent/> : <UserDetailsCollection updateDonorProfileState={this.updateDonorProfileState.bind(this)}/>}
         </div>
       </div>
     );

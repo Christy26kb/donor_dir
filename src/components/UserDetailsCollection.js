@@ -5,6 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const screenwidth=window.screen.availWidth;
 
@@ -28,12 +31,20 @@ const styles = theme => ({
     marginRight:40,
     marginLeft:10,
   },
+  close: {
+    width: theme.spacing.unit * 4,
+    height: theme.spacing.unit * 4,
+  },
 });
 
 
 
 class UserDetailsCollection extends React.Component {
-  state = {
+  constructor(props){
+  super(props);
+  this.state = {
+    alertbox: false,
+    alertbox2: false,
     name: '',
     age: '',
     gender: 'male',
@@ -43,6 +54,7 @@ class UserDetailsCollection extends React.Component {
     state:'kerala',
     district:'',
   };
+  }
 
   handleChange = name => event => {
     this.setState({
@@ -65,7 +77,17 @@ class UserDetailsCollection extends React.Component {
 
   };
 
-  updateUserInfo = () => () => {
+  profileInfoTokenSet = async () => {
+    await localStorage.setItem("userToken", "true");
+};
+
+//VIM Calling parent function from child.
+  updateDonorProfileState=()=>{
+    this.props.updateDonorProfileState();
+  }
+
+  updateUserInfo = (props) => () => {
+    //Fetching current user unique id.
     var userid=firebase.auth().currentUser.uid;
     //Collecting data from state.
     var userentry = {
@@ -81,21 +103,35 @@ class UserDetailsCollection extends React.Component {
         district:this.state.district,
     };
 
-    //Adding new entry to wishlist of 'user1'(it will be dynamic) with finded custom key.
-    if (userid != null) {
-    firebase
-        .database()
-        .ref("/users")
-        .child(userid)
-        .set(userentry, function(error) {
-            if (error) {
-                alert(error);
-            } else {
-              
-                alert("User information updated succesfully");
-            }
-        });
+    //Validation of form data.
+      if(userentry.name==''||userentry.age<18||userentry.weight<50||userentry.bloodgroup==''||userentry.district==''||userentry.mobile.length!=10)
+      {
+        this.setState({alertbox:true});
       }
+      else
+      {
+         //Adding new entry to 'users'(it will be dynamic) with finded custom key.
+          if (userid != null) {
+            firebase
+                .database()
+                .ref("/users")
+                .child(userid)
+                .set(userentry,(error) => {
+                    if (error) {
+                        alert(error);
+                    } else {
+                       //Succes alert snackbar.
+                       this.setState({alertbox2:true});
+                      //Setting token on localstorage for user profile details tracking.
+                      this.profileInfoTokenSet();
+                      this.updateDonorProfileState();
+                    }
+                });
+              }
+
+      }
+
+   
 };
 
   render() {
@@ -240,6 +276,8 @@ class UserDetailsCollection extends React.Component {
           }}
           helperText="Your registered mobile number"
           margin="normal"
+          maxLength={10}
+          
         />
         
       </form>
@@ -249,6 +287,57 @@ class UserDetailsCollection extends React.Component {
          <Button variant="outlined" className={classes.button} onClick={this.updateUserInfo().bind(this)}>
         Save & Continue
       </Button>
+
+      
+      <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          open={this.state.alertbox}
+          autoHideDuration={6000}
+          onClose={()=>this.setState({alertbox:false})}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">You must fill all the above fields and satisfy the blood donor's criteria mentioned below each fields! </span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={()=>this.setState({alertbox:false})}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          open={this.state.alertbox2}
+          autoHideDuration={3000}
+          onClose={()=>this.setState({alertbox2:false})}
+          ContentProps={{
+            'aria-describedby': 'message-id2',
+          }}
+          message={<span id="message-id2">User information updated succesfully.</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={()=>this.setState({alertbox2:false})}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
       </div>
     );
   }
