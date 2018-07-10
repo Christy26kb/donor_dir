@@ -9,7 +9,7 @@ export default class MainContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       DonorStatus:'true',
+       donorstatus:true,
     };
 }
 
@@ -22,17 +22,24 @@ _signOut = async ()=>{
 
 };
 
+handleToggle = name => event => {
+  this.setState({ [name]: event.target.checked });
+};
+
   render() {
     return (
-      <div>
+      <div className='root'>
         <div className='DonorText' >
-         <h4>Blood Donor's status</h4>
+         <h4 className='statusTitle' >Blood Donor's status</h4>
          <Switch
-          checked={this.state.DonorStatus}
-          onChange={()=>this.setState({DonorStatus:'false'})}
-          value={this.state.DonorStatus}
+          className='toggle'
+          checked={this.state.donorstatus}
+          onChange={this.handleToggle('donorstatus')}
+          value="donorstatus"
+          color="primary"
         />
          </div>
+         
           <h3 style={{marginTop:15}} onClick={this._signOut.bind(this)}>Logout</h3>
       </div>
     );

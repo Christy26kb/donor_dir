@@ -1,10 +1,14 @@
 
+    .root{
+      margin-inline-start: 20px;
+    }
     .DonorText{
       display:flex;
-      flex-direction:row;
-      justify-content: center;
-      
+    }
+    .statusTitle{
+      color:grey;
+      margin-right:70px;
     }
     .toggle{
-     margin-left: 50px;
+     align-self:center;
     }
