@@ -1,0 +1,10 @@
+
+    .DonorText{
+      display:flex;
+      flex-direction:row;
+      justify-content: center;
+      
+    }
+    .toggle{
+     margin-left: 50px;
+    }

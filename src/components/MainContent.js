@@ -3,34 +3,33 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {Toolbar,Typography,IconButton,Switch,Menu,MenuItem,FormGroup,FormControlLabel} from '@material-ui/core/';
-import './MScreen.css'
+import './Maincontent.css'
 
 export default class MainContent extends Component {
   constructor(props) {
     super(props);
-    //this._signInAsync();
     this.state = {
-       DonorStatus:true,
+       DonorStatus:'true',
     };
 }
 
-_signOut = ()=>{
-firebase.auth().signOut();
+_signOut = async ()=>{
+
+  //Removing the localstorage profileinfoToken(to check if user already fill the form earlier).
+  await localStorage.setItem("userToken","false");
+  //Logout current user.
+  firebase.auth().signOut();
+
 };
-
-/*_signInAsync = async () => {
-    await localStorage.setItem("userToken", "true");
-
-};*/
 
   render() {
     return (
       <div>
         <div className='DonorText' >
-         <h4 className='toggle'>Donor's status (Available/Non-Available)</h4>
+         <h4>Blood Donor's status</h4>
          <Switch
           checked={this.state.DonorStatus}
-          onChange={()=>this.setState({DonorStatus:true})}
+          onChange={()=>this.setState({DonorStatus:'false'})}
           value={this.state.DonorStatus}
         />
          </div>
