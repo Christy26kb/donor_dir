@@ -56,6 +56,32 @@ class UserDetailsCollection extends React.Component {
   };
   }
 
+  fetchUserInfo=()=>{
+      //Fetching current user unique id.
+      var uid=firebase.auth().currentUser.uid;
+      //Fetching data if the user have already entered profile information.
+      if (uid != null) {
+        firebase
+            .database()
+            .ref("/users")
+            .child(uid)
+            .once("value",(data) => {
+                if(data.val()!=undefined){
+                  this.setState({
+                    name:data.val().name,
+                    age:data.val().age,
+                    gender:data.val().gender,
+                    weight:data.val().weight,
+                    bloodgroup:data.val().bloodgroup,
+                    mobile:data.val().mobile,
+                    state: data.val().state,
+                    district: data.val().district,
+                  });
+                }
+            });
+          }
+  }
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -86,7 +112,7 @@ class UserDetailsCollection extends React.Component {
     this.props.updateDonorProfileState();
   }
 
-  updateUserInfo = (props) => () => {
+  updateUserInfo = () => () => {
     //Fetching current user unique id.
     var userid=firebase.auth().currentUser.uid;
     //Collecting data from state.
@@ -128,11 +154,13 @@ class UserDetailsCollection extends React.Component {
                     }
                 });
               }
-
       }
 
-   
 };
+
+  componentWillMount(){
+    this.fetchUserInfo();
+  }
 
   render() {
     const { classes } = this.props;
