@@ -8,7 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Options from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import Main_Drawer from './_MainDrawer.js'
+import Main_Drawer from './_MainDrawer.js';
+import firebase from 'firebase';
 const styles = {
   root: {
     flexGrow: 1,
@@ -40,7 +41,16 @@ class App_Bar extends React.Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleClose = async () => {
+    this.setState({ anchorEl: null });
+  };
+
+  _signOut = async ()=>{
+
+    //Removing the localstorage profileinfoToken(to check if user already fill the form earlier).
+    await localStorage.setItem("userToken","false");
+    //Logout current user.
+    firebase.auth().signOut();
     this.setState({ anchorEl: null });
   };
 
@@ -81,8 +91,8 @@ class App_Bar extends React.Component {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.handleClose}>Settings</MenuItem>
+                  <MenuItem onClick={this._signOut}>Logout</MenuItem>
                 </Menu>
               </div>
             )}

@@ -39,9 +39,7 @@ handleToggle = name => event => {
           color="primary"
         />
          </div>
-         
          <SearchTab/>
-          <h3 style={{marginTop:15}} onClick={this._signOut.bind(this)}>Logout</h3>
       </div>
     );
   }
