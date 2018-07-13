@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {Toolbar,Typography,IconButton,Switch,Menu,MenuItem,FormGroup,FormControlLabel} from '@material-ui/core/';
 import './Maincontent.css'
-
+import SearchTab from './SearchTab.js'
 export default class MainContent extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +28,7 @@ handleToggle = name => event => {
 
   render() {
     return (
-      <div className='root'>
+      <div >
         <div className='DonorText' >
          <h4 className='statusTitle' >Blood Donor's status</h4>
          <Switch
@@ -40,6 +40,7 @@ handleToggle = name => event => {
         />
          </div>
          
+         <SearchTab/>
           <h3 style={{marginTop:15}} onClick={this._signOut.bind(this)}>Logout</h3>
       </div>
     );

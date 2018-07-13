@@ -9,8 +9,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-const screenwidth=window.screen.availWidth;
-
 const styles = theme => ({
   container: {
     display: 'flex',

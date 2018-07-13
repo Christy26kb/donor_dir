@@ -1,9 +1,10 @@
 
     .root{
-      margin-inline-start: 20px;
+     padding-inline-start: 10px
     }
     .DonorText{
       display:flex;
+      
     }
     .statusTitle{
       color:grey;
