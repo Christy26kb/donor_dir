@@ -38,7 +38,6 @@ fetchDonorStatus=()=>{
   .child(usrid)
   .once("value", (data) => {
       if (data.val() != undefined && data.val().donorstatus==true) {
-          console.log(data.val().donorstatus);
           this.setState({checkedA:true});
       } else {
           this.setState({checkedA:false});
@@ -51,17 +50,18 @@ handleToggle = name => event => {
 
   // Setting Donor availibility according to 'ToggleButton'.
     this.setState({ [name]: event.target.checked });
+    this.updateDonorStatus(event.target.checked);
   };
 
   
-updateDonorStatus=()=>{
+updateDonorStatus=(action)=>{
   const usrid=firebase.auth().currentUser.uid;
   return firebase
   .database()
   .ref("/users")
   .child(usrid)
   .update({
-    "donorstatus":false
+    "donorstatus":action
   },(error)=>{
     if(error){
       console.log('update not succesfull');
