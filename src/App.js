@@ -43,13 +43,6 @@ class App extends Component {
         });
     };
 
-
- // Fetch the token from storage then navigate to our appropriate place
- /*_bootstrapAsync = async () => {
-  const userToken = await localStorage.getItem("userToken");
-  this.setState({ signedin: userToken === "true" ? true : false});
-};*/
-
 componentWillUnmount() {
   this.unregisterAuthObserver();
 }

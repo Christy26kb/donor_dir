@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import cyan from '@material-ui/core/colors/cyan';
+import firebase from 'firebase';
 import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
@@ -20,11 +20,67 @@ const styles = theme => ({
 });
 
 class ToggleButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.fetchDonorStatus();
+    this.state = {
+       checkedA:true,
+    };
+}
+
+
+fetchDonorStatus=()=>{
+
+  const usrid=firebase.auth().currentUser.uid;
+  return firebase
+  .database()
+  .ref("/users")
+  .child(usrid)
+  .once("value", (data) => {
+      if (data.val() != undefined && data.val().donorstatus==true) {
+          console.log(data.val().donorstatus);
+          this.setState({checkedA:true});
+      } else {
+          this.setState({checkedA:false});
+      }
+  });
+
+};
+
+handleToggle = name => event => {
+
+  // Setting Donor availibility according to 'ToggleButton'.
+    this.setState({ [name]: event.target.checked });
+  };
+
+  
+updateDonorStatus=()=>{
+  const usrid=firebase.auth().currentUser.uid;
+  return firebase
+  .database()
+  .ref("/users")
+  .child(usrid)
+  .update({
+    "donorstatus":false
+  },(error)=>{
+    if(error){
+      console.log('update not succesfull');
+    }
+    else{
+      console.log('update succesfull');
+    }
+  });
+};
+
+
   render() {
     const { classes } = this.props;
 
     return (
             <Switch
+                checked={this.state.checkedA}
+                onChange={this.handleToggle('checkedA')}
+                value="checkedA"
                 style={{alignSelf:'center'}}
                 classes={{
                     switchBase: classes.colorSwitchBase,
