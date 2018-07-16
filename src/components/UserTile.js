@@ -18,10 +18,22 @@ const styles = theme => ({
     flexDirection:'row',
     alignItems:'center',
     maxHeight:25,
+    
   },
+  
   text:{
       marginLeft:20,
-      color:'grey'
+      color:'grey',
+      '&:hover': {
+        color: '#007c91',
+        opacity: 1,
+      },
+      '&:focus': {
+        color: '#007c91',
+      },
+      '&:active': {
+        color: '#007c91',
+      },
   },
   avatar:{
         margin: 10,
