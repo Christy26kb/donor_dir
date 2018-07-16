@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import UserTile from './UserTile.js';
 
 function TabContainer(props) {
   return (
@@ -98,7 +99,9 @@ class SearchTab extends React.Component {
           </Tabs>
         </AppBar>
 
-        {value === 0 && <TabContainer>Offline directory lists</TabContainer>}
+        {value === 0 && <TabContainer>Offline directory lists
+          <UserTile/>
+        </TabContainer>}
         {value === 1 && <TabContainer>A+</TabContainer>}
         {value === 2 && <TabContainer>A-</TabContainer>}
         {value === 3 && <TabContainer>B+</TabContainer>}
