@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import UserTile from './UserTile.js';
+import firebase from 'firebase';
 
 function TabContainer(props) {
   return (
@@ -64,18 +65,45 @@ const styles = theme => ({
 });
 
 class SearchTab extends React.Component {
-  state = {
-    value: 0,
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      value: 0,
+      Apos:[],
+      Aneg:[],
+      Bpos:[],
+      Bneg:[],
+      Opos:[],
+      Oneg:[],
+      ABpos:[],
+      ABneg:[],
+    };
+  }
+ 
 
   handleChange = (event, value) => {
     this.setState({ value });
   };
 
+  fetchData=(bg_state,group)=>()=>{
+    console.log("reached");
+    firebase
+    .database()
+    .ref("/users")
+    .orderByChild("bloodgroup")
+    .equalTo('B-')
+    .on("value",(data)=>{
+      if(data.val()!=undefined){
+        console.log(Object.values(data.val()));
+        this.setState({bg_state:Object.values(data.val())});
+      }
+    });
+  }
+
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-
+    const { Apos_e,Bpos_e} = [];
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -87,8 +115,8 @@ class SearchTab extends React.Component {
             classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
           >
 
-             <Tab label="Offline"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
-            <Tab label="A+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
+             <Tab label="Offline"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="A+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData('Apos','A+').bind()}/>
             <Tab label="B+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
             <Tab label="O+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
             <Tab label="AB+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
@@ -99,10 +127,11 @@ class SearchTab extends React.Component {
           </Tabs>
         </AppBar>
 
-        {value === 0 && <TabContainer>Offline directory lists
-          <UserTile/>
+        {value === 0 && <TabContainer>Offline directory list</TabContainer>}
+        {value === 1 && <TabContainer>A+
+          {this.state.Apos.map((item)=>Apos_e.push(<UserTile item={item}/>))}
+          {Apos_e}
         </TabContainer>}
-        {value === 1 && <TabContainer>A+</TabContainer>}
         {value === 2 && <TabContainer>A-</TabContainer>}
         {value === 3 && <TabContainer>B+</TabContainer>}
         {value === 4 && <TabContainer>B-</TabContainer>}

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -18,7 +17,6 @@ const styles = theme => ({
     flexDirection:'row',
     alignItems:'center',
     maxHeight:25,
-    
   },
   
   text:{
@@ -61,7 +59,7 @@ class UserTile extends React.Component{
                   <AssignmentIcon/>
                   </Avatar>
                 <Typography component="p" className={classes.text}>
-                 Christy Babu
+                    Christy Babu
                 </Typography>
                 
               </div>
