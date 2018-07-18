@@ -45,6 +45,9 @@ const styles = theme => ({
     backgroundColor:'#007c91',
    
 },
+phone:{
+    marginLeft:20,
+},
 
 });
 
@@ -61,7 +64,6 @@ class UserTile extends React.Component{
                 <Typography component="p" className={classes.text}>
                     {this.props.data.name}
                 </Typography>
-                <Phone/>
               </div>
             </div>
           );

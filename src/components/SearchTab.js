@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import UserTile from './UserTile.js';
 import firebase from 'firebase';
+import { CircularProgress } from '@material-ui/core';
 
 function TabContainer(props) {
   return (
@@ -69,6 +70,8 @@ class SearchTab extends React.Component {
     super(props);
     this.state = {
       value: 0,
+      isLoading:true,
+      network:true,
       Apos:[],
       Aneg:[],
       Bpos:[],
@@ -95,7 +98,10 @@ class SearchTab extends React.Component {
     .on("value",(data)=>{
       if(data.val()!=undefined){
         //console.log(Object.values(data.val()));
-        this.setState({Apos:Object.values(data.val())});
+        this.setState({Apos:Object.values(data.val()),isLoading:false});
+      }
+      else{
+        this.setState({isLoading:false})
       }
     });
 
@@ -106,6 +112,7 @@ class SearchTab extends React.Component {
     const { classes } = this.props;
     const { value } = this.state;
     var { Apos_e,Bpos_e} = [];
+    const loader = <CircularProgress color="inherit" size={20}/>;
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -130,8 +137,9 @@ class SearchTab extends React.Component {
         </AppBar>
 
         {value === 0 && <TabContainer>Offline directory list</TabContainer>}
-        {value === 1 && <TabContainer>A+
-          {Apos_e = this.state.Apos.map((item)=><UserTile key={item.uid} data={item}/>) }
+        {value === 1 && <TabContainer>
+          { this.state.isLoading? loader:null }
+          {Apos_e = this.state.Apos.map((item)=><UserTile key={item.uid} data={item}/>)}
         </TabContainer>}
         {value === 2 && <TabContainer>A-</TabContainer>}
         {value === 3 && <TabContainer>B+</TabContainer>}
