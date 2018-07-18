@@ -54,14 +54,14 @@ class UserTile extends React.Component{
         const { classes } =this.props;
         return (
             <div>
-              <div className={classes.root}>
+              <div id={this.props.data.uid} className={classes.root}>
                   <Avatar className={classes.avatar}>
                   <AssignmentIcon/>
                   </Avatar>
                 <Typography component="p" className={classes.text}>
-                    Christy Babu
+                    {this.props.data.name}
                 </Typography>
-                
+                <Phone/>
               </div>
             </div>
           );

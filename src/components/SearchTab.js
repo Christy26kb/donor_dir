@@ -85,8 +85,8 @@ class SearchTab extends React.Component {
     this.setState({ value });
   };
 
-  fetchData=(bg_state,group)=>()=>{
-    console.log("reached");
+  fetchData = (bg_state,group) => () => {
+    //console.log("reached");
     firebase
     .database()
     .ref("/users")
@@ -94,16 +94,18 @@ class SearchTab extends React.Component {
     .equalTo('B-')
     .on("value",(data)=>{
       if(data.val()!=undefined){
-        console.log(Object.values(data.val()));
-        this.setState({bg_state:Object.values(data.val())});
+        //console.log(Object.values(data.val()));
+        this.setState({Apos:Object.values(data.val())});
       }
     });
-  }
+
+    
+  };
 
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-    const { Apos_e,Bpos_e} = [];
+    var { Apos_e,Bpos_e} = [];
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -115,8 +117,8 @@ class SearchTab extends React.Component {
             classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
           >
 
-             <Tab label="Offline"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="A+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData('Apos','A+').bind()}/>
+            <Tab label="Offline"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="A+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("Apos","A+").bind(this)}/>
             <Tab label="B+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
             <Tab label="O+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
             <Tab label="AB+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
@@ -129,8 +131,7 @@ class SearchTab extends React.Component {
 
         {value === 0 && <TabContainer>Offline directory list</TabContainer>}
         {value === 1 && <TabContainer>A+
-          {this.state.Apos.map((item)=>Apos_e.push(<UserTile item={item}/>))}
-          {Apos_e}
+          {Apos_e = this.state.Apos.map((item)=><UserTile key={item.uid} data={item}/>) }
         </TabContainer>}
         {value === 2 && <TabContainer>A-</TabContainer>}
         {value === 3 && <TabContainer>B+</TabContainer>}
