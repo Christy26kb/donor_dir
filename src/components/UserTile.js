@@ -6,6 +6,8 @@ import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import Phone from '@material-ui/icons/Phone';
+import {Link,Route,Redirect} from 'react-router-dom';
+import UserDetailsCollection from './UserDetailsCollection.js';
 
 const styles = theme => ({
   root: {
@@ -56,7 +58,8 @@ class UserTile extends React.Component{
     render(){
         const { classes } =this.props;
         return (
-            <div>
+            <div onClick={()=>console.log("Pressed")}>
+            <Route path={'./UserDetailsCollection'} Component={UserDetailsCollection} />
               <div id={this.props.data.uid} className={classes.root}>
                   <Avatar className={classes.avatar}>
                   <AssignmentIcon/>
@@ -64,6 +67,7 @@ class UserTile extends React.Component{
                 <Typography component="p" className={classes.text}>
                     {this.props.data.name}
                 </Typography>
+                <Link to={'./UserDetailsCollection'}>User</Link>
               </div>
             </div>
           );

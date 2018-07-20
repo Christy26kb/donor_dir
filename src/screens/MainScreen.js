@@ -5,6 +5,7 @@ import MainContent from '../components/MainContent.js';
 import UserDetailsCollection from '../components/UserDetailsCollection.js';
 import './MScreen.css'
 
+
 export default class MainScreen extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +46,7 @@ profileInfoTokenFetch = async () => {
       <div>
         <_AppBar/>
         <div className='base'>
-        {this.state.DonorProfile ? <MainContent/> : <UserDetailsCollection updateDonorProfileState={this.updateDonorProfileState.bind(this)}/>}
+        {this.state.DonorProfile ? <MainContent/>: <UserDetailsCollection updateDonorProfileState={this.updateDonorProfileState.bind(this)}/>}
         </div>
       </div>
     );
