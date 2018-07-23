@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -6,9 +6,9 @@ import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import Phone from '@material-ui/icons/Phone';
-import {Link,Route,Redirect} from 'react-router-dom';
+import {NavLink,Route,Redirect} from 'react-router-dom';
 import UserDetailsCollection from './UserDetailsCollection.js';
-
+import Withback_Appbar from '../components/Withback_Appbar.js';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -53,13 +53,25 @@ phone:{
 
 });
 
-  
+
 class UserTile extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+     urlloc:window.location.pathname
+    };
+  }
+
+ /* shouldComponentUpdate(nextProps, nextState) {
+    console.log("reached");
+    console.log(this.state.urlloc);
+    return shallow
+  };
+   */
     render(){
         const { classes } =this.props;
         return (
-            <div onClick={()=>console.log("Pressed")}>
-            <Route path={'./UserDetailsCollection'} Component={UserDetailsCollection} />
+            <div onClick={()=>console.log(this.state.urlloc)}>
               <div id={this.props.data.uid} className={classes.root}>
                   <Avatar className={classes.avatar}>
                   <AssignmentIcon/>
@@ -67,7 +79,8 @@ class UserTile extends React.Component{
                 <Typography component="p" className={classes.text}>
                     {this.props.data.name}
                 </Typography>
-                <Link to={'./UserDetailsCollection'}>User</Link>
+                <NavLink to={'./Withback_Appbar.js'}>user</NavLink>
+                <Route exact path='/Withback_Appbar.js' component={Withback_Appbar} />
               </div>
             </div>
           );

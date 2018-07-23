@@ -160,9 +160,7 @@ class UserDetailsCollection extends React.Component {
     this.fetchUserInfo();
   }
 
-  componentWillUnmount(){
-    
-  }
+
   render() {
     const { classes } = this.props;
     return (

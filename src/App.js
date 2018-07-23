@@ -4,7 +4,6 @@ import AuthFlowScreen from "./navigation/AuthFlowScreen.js";
 import MainScreen from "./screens/MainScreen.js";
 import firebase from 'firebase';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { BrowserRouter } from 'react-router-dom';
 
 // Initialize Firebase
 var config = {
@@ -71,9 +70,7 @@ componentWillUnmount() {
         }
       else{
         return (
-          <BrowserRouter>
           <MainScreen/>
-          </BrowserRouter>
       );
       }
 
