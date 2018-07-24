@@ -4,9 +4,8 @@ import _AppBar from '../components/_AppBar.js';
 import MainContent from '../components/MainContent.js';
 import UserDetailsCollection from '../components/UserDetailsCollection.js';
 import './MScreen.css';
+import {Route,Redirect,Switch} from 'react-router-dom';
 import Withback_Appbar from '../components/Withback_Appbar.js';
-
-
 export default class MainScreen extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +16,7 @@ export default class MainScreen extends Component {
 }
 
 
+//A listener will be mounted for updating parent state according to changes in child components. 
 updateDonorProfileState=()=>{
 
   this.setState({DonorProfile:true});
@@ -41,13 +41,20 @@ profileInfoTokenFetch = async () => {
   }
 };
 
-//A listener will be mounted for updating parent state according to changes in child components. 
   render() {
+    console.log("Render times");
     return (
       <div>
         <_AppBar/>
         <div className='base'>
-        {this.state.DonorProfile ? <MainContent/>: <UserDetailsCollection updateDonorProfileState={this.updateDonorProfileState.bind(this)}/>}
+
+        {/*......Routes......*/}
+        <Switch>
+        <Route exact path='/MainContent' component={MainContent} />
+        <Route exact path='/UserDetailsCollection' component={UserDetailsCollection} />
+        <Route exact path='/Withback_Appbar' component={Withback_Appbar} />
+        </Switch>
+        {this.state.DonorProfile ? <Redirect to='/MainContent'/>: <UserDetailsCollection updateDonorProfileState={this.updateDonorProfileState.bind(this)}/>}
         </div>
       </div>
     );

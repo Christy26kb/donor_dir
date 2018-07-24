@@ -5,8 +5,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import NavigateBefore from '@material-ui/icons/NavigateBefore';
+import ArrowBack from '@material-ui/icons/es/ArrowBack';
 import firebase from 'firebase';
+import {Redirect,Link} from 'react-router-dom';
+import MainContent from './MainContent.js';
 const styles = {
   root: {
     flexGrow: 1,
@@ -51,6 +53,11 @@ class Withback_Appbar extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  navigate=()=>()=>{
+    console.log("navigate");
+    <Redirect to='/MainContent'/>
+  };
+
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
@@ -61,8 +68,9 @@ class Withback_Appbar extends React.Component {
         <AppBar position="fixed" className={classes.appbar}>
           <Toolbar>
           <IconButton className={classes.backButton} color="inherit" aria-label="back">
-            <NavigateBefore onClick={()=>window.history.back}/>
+            <ArrowBack />
             </IconButton>
+            <Link to='/MainContent'>Go</Link>
           </Toolbar>
         </AppBar>
       </div>

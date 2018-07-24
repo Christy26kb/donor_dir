@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import Phone from '@material-ui/icons/Phone';
 import {Link,Redirect} from 'react-router-dom';
-import UserDetailsCollection from './UserDetailsCollection.js';
 import Withback_Appbar from '../components/Withback_Appbar.js';
 const styles = theme => ({
   root: {
@@ -25,6 +24,7 @@ const styles = theme => ({
       marginLeft:20,
       color:'grey',
       '&:link': {
+        color: '#007c91',
         textDecoration: 'none',
       },
       '&:hover': {
@@ -62,40 +62,23 @@ phone:{
 });
 
 
-class UserTile extends React.Component{
-  constructor(props){
-    super(props);
-    /*this.state = {
-     urlloc:window.location.pathname
-    };
-    */
-  }
-
- /* shouldComponentUpdate(nextProps, nextState) {
-    console.log("reached");
-    console.log(this.state.urlloc);
-    return shallow
-  };
-   */
+class UserInfo extends React.Component{
     render(){
         const { classes } =this.props;
         return (
             <div >
               <div id={this.props.data.uid} className={classes.root}>
                   <Avatar className={classes.avatar}>
-                  <AssignmentIcon/>
+                  <AccountCircleIcon/>
                   </Avatar>
-                    <Link to={'/Withback_Appbar'} className={classes.text}>
-                    {this.props.data.name}
-                    </Link>
               </div>
             </div>
           );
     }
 }
 
-UserTile.propTypes = {
+UserInfo.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(UserTile);
+export default withStyles(styles)(UserInfo);
