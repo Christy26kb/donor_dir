@@ -65,9 +65,13 @@ phone:{
 class UserInfo extends React.Component{
     render(){
         const { classes } =this.props;
+        //Pathname for "Withback_Appbar" (BackArrow)->handle.
+        const repath='/MainContent';
+        console.log(this.props.location.userdata);
         return (
             <div >
-              <div id={this.props.data.uid} className={classes.root}>
+              <div id={this.props.location.uid} className={classes.root}>
+                <Withback_Appbar redirect_to={repath}/>
                   <Avatar className={classes.avatar}>
                   <AccountCircleIcon/>
                   </Avatar>

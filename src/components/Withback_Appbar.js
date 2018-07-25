@@ -53,24 +53,21 @@ class Withback_Appbar extends React.Component {
     this.setState({ anchorEl: null });
   };
 
-  navigate=()=>()=>{
-    console.log("navigate");
-    <Redirect to='/MainContent'/>
-  };
-
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
-
+    const redirectPath=this.props.redirect_to;
     return (
       <div className={classes.root}>
         <AppBar position="fixed" className={classes.appbar}>
           <Toolbar>
           <IconButton className={classes.backButton} color="inherit" aria-label="back">
-            <ArrowBack />
+          <ArrowBack />
             </IconButton>
-            <Link to='/MainContent'>Go</Link>
+            <Link to={{
+             pathname: redirectPath,
+              }}>Go</Link>
           </Toolbar>
         </AppBar>
       </div>

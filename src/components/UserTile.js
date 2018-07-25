@@ -79,14 +79,20 @@ class UserTile extends React.Component{
    */
     render(){
         const { classes } =this.props;
+        var usrdata=this.props.data;
         return (
             <div >
               <div id={this.props.data.uid} className={classes.root}>
                   <Avatar className={classes.avatar}>
                   <AssignmentIcon/>
                   </Avatar>
-                    <Link to={'/Withback_Appbar'} className={classes.text}>
-                    {this.props.data.name}
+                    <Link 
+                      to={{
+                        pathname:'/MainContent/UserInfo',
+                        userdata:usrdata
+                      }}
+                      className={classes.text}>
+                      {this.props.data.name}
                     </Link>
               </div>
             </div>

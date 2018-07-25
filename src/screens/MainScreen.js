@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import _AppBar from '../components/_AppBar.js';
 import MainContent from '../components/MainContent.js';
 import UserDetailsCollection from '../components/UserDetailsCollection.js';
+import UserInfo from '../components/UserInfo.js';
 import './MScreen.css';
 import {Route,Redirect,Switch} from 'react-router-dom';
 import Withback_Appbar from '../components/Withback_Appbar.js';
@@ -42,7 +43,7 @@ profileInfoTokenFetch = async () => {
 };
 
   render() {
-    console.log("Render times");
+    console.log("MainScreen render");
     return (
       <div>
         <_AppBar/>
@@ -51,10 +52,14 @@ profileInfoTokenFetch = async () => {
         {/*......Routes......*/}
         <Switch>
         <Route exact path='/MainContent' component={MainContent} />
-        <Route exact path='/UserDetailsCollection' component={UserDetailsCollection} />
-        <Route exact path='/Withback_Appbar' component={Withback_Appbar} />
+        <Route exact 
+          path='/UserDetailsCollection'
+          component={UserDetailsCollection}
+          render={(props)=><UserDetailsCollection {...props} updateDonorProfileState={this.updateDonorProfileState()}/>}
+          />
+           <Route exact path='/MainContent/UserInfo' component={UserInfo} />
         </Switch>
-        {this.state.DonorProfile ? <Redirect to='/MainContent'/>: <UserDetailsCollection updateDonorProfileState={this.updateDonorProfileState.bind(this)}/>}
+        {this.state.DonorProfile ? <Redirect to='/MainContent'/>: <Redirect to='/UserDetailsCollection'/>}
         </div>
       </div>
     );
