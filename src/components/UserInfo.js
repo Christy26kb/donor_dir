@@ -6,83 +6,70 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import Phone from '@material-ui/icons/Phone';
-import {Link,Redirect} from 'react-router-dom';
+import {Link, Redirect, withRouter} from 'react-router-dom';
 import Withback_Appbar from '../components/Withback_Appbar.js';
 const styles = theme => ({
-  root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    marginTop:5,
-    display:'flex',
-    flexDirection:'row',
-    alignItems:'center',
-    maxHeight:25,
-  },
-  
-  text:{
-      marginLeft:20,
-      color:'grey',
-      '&:link': {
-        color: '#007c91',
-        textDecoration: 'none',
-      },
-      '&:hover': {
-        color: '#007c91',
-        opacity: 1,
-        textDecoration: 'none',
-      },
-      '&:active': {
-        color: '#007c91',
-        textDecoration: 'none',
-      },
-      '&:focus': {
-        color: '#007c91',
-        textDecoration: 'none',
-      },
-     
-      
-  },
-  avatar:{
-        margin: 10,
-        color: '#fff',
-        backgroundColor:'#007c91',
-        
-  },
-  iconavatar:{
-    margin: 10,
-    color: '#fff',
-    backgroundColor:'#007c91',
-   
+	root: {
+		marginTop:5,
+		display:'flex',
+		flexDirection:'row',
+		justifyContent:'center'
+	},  
+	avatar:{
+				
+				color: '#fff',
+				backgroundColor:'#ffffff',
+				minHeight:80,
+				minWidth:80,
+				marginRight:15,
+	},
+	iconavatar:{
+		minHeight:80,
+		minWidth:80,
+		color: '#007c91',
+		marginRight:15,
 },
 phone:{
-    marginLeft:20,
+		marginLeft:20,
 },
+statusTitle:{
+color:'grey',
 
+},
 });
 
 
 class UserInfo extends React.Component{
-    render(){
-        const { classes } =this.props;
-        //Pathname for "Withback_Appbar" (BackArrow)->handle.
-        const repath='/MainContent';
-        console.log(this.props.location.userdata);
-        return (
-            <div >
-              <div id={this.props.location.uid} className={classes.root}>
-                <Withback_Appbar redirect_to={repath}/>
-                  <Avatar className={classes.avatar}>
-                  <AccountCircleIcon/>
-                  </Avatar>
-              </div>
-            </div>
-          );
-    }
+	//Binding passes props from router to component props.
+	static propTypes = {
+		match: PropTypes.object.isRequired,
+		location: PropTypes.object.isRequired,
+		history: PropTypes.object.isRequired
+	}
+
+		render(){
+				const { classes,match,location,history } =this.props;
+				//Pathname for "Withback_Appbar" (BackArrow)->handle.
+				const repath='/MainContent';
+				console.log(location.userdata.name);
+				return (
+						<div >
+							<Withback_Appbar redirect_to={repath}/>
+							<div className={classes.root}>
+									<Avatar className={classes.avatar}>
+									<AccountCircleIcon className={classes.iconavatar}/>
+									</Avatar>
+									<div className='UserInfo_base' >
+									<h4 className='statusTitle' >Christy Babu</h4>
+									</div>
+							</div>
+						</div>
+					);
+		}
 }
 
 UserInfo.propTypes = {
-  classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(UserInfo);
+export default withRouter(withStyles(styles)(UserInfo));
