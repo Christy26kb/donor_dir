@@ -16,7 +16,7 @@ const styles = theme => ({
   },
   colorBar: {},
   colorChecked: {},
-  
+
 });
 
 class ToggleButton extends React.Component {
@@ -24,70 +24,70 @@ class ToggleButton extends React.Component {
     super(props);
     this.fetchDonorStatus();
     this.state = {
-       checkedA:true,
+      checkedA: true,
     };
-}
+  }
 
 
-fetchDonorStatus=()=>{
+  fetchDonorStatus = () => {
 
-  const usrid=firebase.auth().currentUser.uid;
-  return firebase
-  .database()
-  .ref("/users")
-  .child(usrid)
-  .once("value", (data) => {
-      if (data.val() != undefined && data.val().donorstatus==true) {
-          this.setState({checkedA:true});
-      } else {
-          this.setState({checkedA:false});
-      }
-  });
+    const usrid = firebase.auth().currentUser.uid;
+    return firebase
+      .database()
+      .ref("/users")
+      .child(usrid)
+      .once("value", (data) => {
+        if (data.val() != undefined && data.val().donorstatus == true) {
+          this.setState({ checkedA: true });
+        } else {
+          this.setState({ checkedA: false });
+        }
+      });
 
-};
+  };
 
-handleToggle = name => event => {
+  handleToggle = name => event => {
 
-  // Setting Donor availibility according to 'ToggleButton'.
+    // Setting Donor availibility according to 'ToggleButton'.
     this.setState({ [name]: event.target.checked });
     this.updateDonorStatus(event.target.checked);
   };
 
-  
-updateDonorStatus=(action)=>{
-  const usrid=firebase.auth().currentUser.uid;
-  return firebase
-  .database()
-  .ref("/users")
-  .child(usrid)
-  .update({
-    "donorstatus":action
-  },(error)=>{
-    if(error){
-      console.log('update not succesfull');
-    }
-    else{
-      console.log('update succesfull');
-    }
-  });
-};
+
+  updateDonorStatus = (action) => {
+    const usrid = firebase.auth().currentUser.uid;
+    return firebase
+      .database()
+      .ref("/users")
+      .child(usrid)
+      .update({
+        "donorstatus": action
+      }, (error) => {
+        if (error) {
+          console.log('update not succesfull');
+        }
+        else {
+          console.log('update succesfull');
+        }
+      });
+  };
 
 
   render() {
     const { classes } = this.props;
 
     return (
-            <Switch
-                checked={this.state.checkedA}
-                onChange={this.handleToggle('checkedA')}
-                value="checkedA"
-                style={{alignSelf:'center'}}
-                classes={{
-                    switchBase: classes.colorSwitchBase,
-                    checked: classes.colorChecked,
-                    bar: classes.colorBar,
-                }}
-            />
+      <Switch
+        checked={this.state.checkedA}
+        onChange={this.handleToggle('checkedA')}
+        value="checkedA"
+        style={{ alignSelf: 'center' }}
+        classes={{
+          switchBase: classes.colorSwitchBase,
+          checked: classes.colorChecked,
+          bar: classes.colorBar,
+        }}
+      />
     );
   }
 }

@@ -67,54 +67,54 @@ const styles = theme => ({
 });
 
 class SearchTab extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       value: 0,
-      isLoading:true,
-      empty:false,
-      Apos:[],
-      Aneg:[],
-      Bpos:[],
-      Bneg:[],
-      Opos:[],
-      Oneg:[],
-      ABpos:[],
-      ABneg:[],
+      isLoading: true,
+      empty: false,
+      Apos: [],
+      Aneg: [],
+      Bpos: [],
+      Bneg: [],
+      Opos: [],
+      Oneg: [],
+      ABpos: [],
+      ABneg: [],
     };
   }
- 
+
 
   handleChange = (event, value) => {
     this.setState({ value });
   };
 
-  fetchData = (bg_state,group) => () => {
+  fetchData = (bg_state, group) => () => {
     //console.log(bg_state,group);
     firebase
-    .database()
-    .ref("/users")
-    .orderByChild("bloodgroup")
-    .equalTo('B-')
-    .on("value",(data)=>{
-      if(data.val()!=undefined){
-        //console.log(Object.values(data.val()));
-        this.setState({Apos:Object.values(data.val()),isLoading:false});
-      }
-      else{
-        this.setState({isLoading:false,empty:true});
-      }
-    });
+      .database()
+      .ref("/users")
+      .orderByChild("bloodgroup")
+      .equalTo('B-')
+      .on("value", (data) => {
+        if (data.val() != undefined) {
+          //console.log(Object.values(data.val()));
+          this.setState({ Apos: Object.values(data.val()), isLoading: false });
+        }
+        else {
+          this.setState({ isLoading: false, empty: true });
+        }
+      });
 
-    
+
   };
 
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-    var { Apos_e,Bpos_e} = [];
-    const loader = <CircularProgress color="inherit" size={20}/>;
-    const empty_e= <p>No users found!</p>;
+    var { Apos_e, Bpos_e } = [];
+    const loader = <CircularProgress color="inherit" size={20} />;
+    const empty_e = <p>No users found!</p>;
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -126,23 +126,23 @@ class SearchTab extends React.Component {
             classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
           >
 
-            <Tab label="Offline"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="A+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("Apos","A+").bind(this)}/>
-            <Tab label="B+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
-            <Tab label="O+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
-            <Tab label="AB+"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
-            <Tab label="A-"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
-            <Tab label="B-"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
-            <Tab label="O-"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
-            <Tab label="AB-"  classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
+            <Tab label="Offline" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="A+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("Apos", "A+").bind(this)} />
+            <Tab label="B+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="O+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="AB+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="A-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="B-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="O-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="AB-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
           </Tabs>
         </AppBar>
 
         {value === 0 && <TabContainer>Offline directory list</TabContainer>}
         {value === 1 && <TabContainer>
-          { this.state.isLoading? loader:null }
-          {Apos_e = this.state.Apos.map((item)=><UserTile key={item.uid} data={item}/>)}
-          {this.state.empty?empty_e:null}
+          {this.state.isLoading ? loader : null}
+          {Apos_e = this.state.Apos.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 2 && <TabContainer>A-</TabContainer>}
         {value === 3 && <TabContainer>B+</TabContainer>}

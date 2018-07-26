@@ -24,6 +24,7 @@ const styles = {
   },
   appbar:{
     backgroundColor:'#007c91',
+    width:'100%'
   },
 };
 

@@ -23,6 +23,7 @@ const styles = {
   },
   appbar:{
     backgroundColor:'#007c91',
+    width:'100%',
   },
 };
 
@@ -53,21 +54,21 @@ class Withback_Appbar extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  navBack = ()=>{
+    window.history.back();
+  };
+
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
-    const redirectPath=this.props.redirect_to;
     return (
       <div className={classes.root}>
         <AppBar position="fixed" className={classes.appbar}>
           <Toolbar>
           <IconButton className={classes.backButton} color="inherit" aria-label="back">
-          <ArrowBack />
+          <ArrowBack  onClick={this.navBack}/>
             </IconButton>
-            <Link to={{
-             pathname: redirectPath,
-              }}>Go</Link>
           </Toolbar>
         </AppBar>
       </div>
