@@ -35,27 +35,30 @@ const styles = theme => ({
 	UserInfo_base: {
 		display: 'flex',
 		flexDirection: 'row',
-		justifyContent:'center',
+		justifyContent: 'center',
 	},
 	statusTitle: {
 		color: 'grey',
-		marginRight:20,
-		fontSize:20,
+		marginRight: 20,
+		fontSize: 20,
 	},
-	details:{
-		flexDirection:'row',
+	details: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		marginRight: 20,
 	},
 });
 
 
 class UserInfo extends React.Component {
 	constructor(props) {
-    super(props);
-    this.state = {
-     dataitem:this.props.location.userdata,
-    };
-    
-  }
+		super(props);
+		this.state = {
+			dataitem: this.props.location.userdata,
+		};
+
+	}
 	//Binding passes props from router to component props.
 	static propTypes = {
 		match: PropTypes.object.isRequired,
@@ -79,10 +82,15 @@ class UserInfo extends React.Component {
 				<div className={classes.UserInfo_base} >
 					<p className={classes.statusTitle} >Christy Babu</p>
 				</div>
-				{/*Iterating the retrieved data to field display component!(Actual needs to iterate data object)*/}
-				{/*Passing label and data for each fields by iterating 'RowData'.*/}
-				<RowData fieldlabel={'Blood Group'} fieldvalue={'B-'} />
-				<RowData fieldlabel={'Donor Status'} fieldvalue={'Ready'} />
+				<div className={classes.details}>
+					{/*Passing label and data for each fields by iterating 'RowData'.*/}
+					<RowData fieldlabel={'Blood Group'} fieldvalue={'B-'} />
+					<RowData fieldlabel={'Donor Status'} fieldvalue={'Ready'} />
+					<RowData fieldlabel={'Gender'} fieldvalue={'Male'} />
+					<RowData fieldlabel={'State'} fieldvalue={'Kerala'} />
+					<RowData fieldlabel={'District'} fieldvalue={'Ernakulam'} />
+					<RowData fieldlabel={'Contact'} fieldvalue={'8138802628'} />
+				</div>
 			</div>
 		);
 	}
@@ -90,9 +98,9 @@ class UserInfo extends React.Component {
 
 UserInfo.propTypes = {
 	classes: PropTypes.object.isRequired,
-		match: PropTypes.object.isRequired,
-		location: PropTypes.object.isRequired,
-		history: PropTypes.object.isRequired
+	match: PropTypes.object.isRequired,
+	location: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired
 };
 
 export default withRouter(withStyles(styles)(UserInfo));
