@@ -7,9 +7,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import UserTile from './UserTile.js';
 import firebase from 'firebase';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, IconButton, Avatar } from '@material-ui/core';
 import ToggleButton from './ToggleButton.js';
 import './Maincontent.css';
+import { FilterList } from '@material-ui/icons';
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -33,6 +34,16 @@ const styles = theme => ({
   },
   tabsIndicator: {
     backgroundColor: '#007c91',
+  },
+  filterButton: {
+    position: 'fixed',
+    bottom: 25,
+    right: 40,
+  },
+  avatar: {
+    color: '#fff',
+    backgroundColor: '#007c91',
+
   },
   tabRoot: {
     textTransform: 'initial',
@@ -153,13 +164,24 @@ class SearchTab extends React.Component {
           {Apos_e = this.state.Apos.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
-        {value === 3 && <TabContainer>A-</TabContainer>}
+        {value === 3 && <TabContainer>
+
+        </TabContainer>}
         {value === 4 && <TabContainer>B+</TabContainer>}
         {value === 5 && <TabContainer>B-</TabContainer>}
         {value === 6 && <TabContainer>AB-</TabContainer>}
         {value === 7 && <TabContainer>AB+</TabContainer>}
         {value === 8 && <TabContainer>O+</TabContainer>}
         {value === 9 && <TabContainer>O+</TabContainer>}
+
+        {/*Filter Button*/}
+        <div className={classes.filterButton}>
+          <IconButton>
+            <Avatar className={classes.avatar}>
+              <FilterList />
+            </Avatar>
+          </IconButton>
+        </div>
       </div>
     );
   }

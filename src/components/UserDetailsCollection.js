@@ -8,26 +8,26 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
+import { Link, Redirect } from 'react-router-dom';
 const styles = theme => ({
   container: {
     display: 'flex',
-    flexDirection:'column',
-    marginTop:35,
-  
-  
+    flexDirection: 'column',
+    marginTop: 35,
+
+
   },
   textField: {
-    marginTop:25,
-    marginBottom:15,
+    marginTop: 25,
+    marginBottom: 15,
     marginLeft: 20,
     marginRight: 20,
-    width:230,
+    width: 230,
   },
   button: {
     margin: theme.spacing.unit,
-    marginRight:40,
-    marginLeft:10,
+    marginRight: 40,
+    marginLeft: 10,
   },
   close: {
     width: theme.spacing.unit * 4,
@@ -38,46 +38,46 @@ const styles = theme => ({
 
 
 class UserDetailsCollection extends React.Component {
-  constructor(props){
-  super(props);
-  this.state = {
-    alertbox: false,
-    alertbox2: false,
-    name: '',
-    age: '',
-    gender: 'male',
-    weight:'',
-    bloodgroup:'',
-    mobile:'',
-    state:'kerala',
-    district:'',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirection: false,
+      alertbox2: false,
+      name: '',
+      age: '',
+      gender: 'male',
+      weight: '',
+      bloodgroup: '',
+      mobile: '',
+      state: 'kerala',
+      district: '',
+    };
   }
 
-  fetchUserInfo=()=>{
-      //Fetching current user unique id.
-      var uid=firebase.auth().currentUser.uid;
-      //Fetching data if the user have already entered profile information.
-      if (uid != null) {
-        firebase
-            .database()
-            .ref("/users")
-            .child(uid)
-            .once("value",(data) => {
-                if(data.val()!=undefined){
-                  this.setState({
-                    name:data.val().name,
-                    age:data.val().age,
-                    gender:data.val().gender,
-                    weight:data.val().weight,
-                    bloodgroup:data.val().bloodgroup,
-                    mobile:data.val().mobile,
-                    state: data.val().state,
-                    district: data.val().district,
-                  });
-                }
+  fetchUserInfo = () => {
+    //Fetching current user unique id.
+    var uid = firebase.auth().currentUser.uid;
+    //Fetching data if the user have already entered profile information.
+    if (uid != null) {
+      firebase
+        .database()
+        .ref("/users")
+        .child(uid)
+        .once("value", (data) => {
+          if (data.val() != undefined) {
+            this.setState({
+              name: data.val().name,
+              age: data.val().age,
+              gender: data.val().gender,
+              weight: data.val().weight,
+              bloodgroup: data.val().bloodgroup,
+              mobile: data.val().mobile,
+              state: data.val().state,
+              district: data.val().district,
             });
           }
+        });
+    }
   }
 
   handleChange = name => event => {
@@ -86,245 +86,248 @@ class UserDetailsCollection extends React.Component {
     });
   };
 
-  clearall(){
+  clearall() {
 
     this.setState({
-        name: '',
-        age: '',
-        gender: 'male',
-        weight:'',
-        bloodgroup:'',
-        mobile:'',
-        state:'kerala',
-        district:'',
+      name: '',
+      age: '',
+      gender: 'male',
+      weight: '',
+      bloodgroup: '',
+      mobile: '',
+      state: 'kerala',
+      district: '',
     });
 
   };
 
   profileInfoTokenSet = async () => {
     await localStorage.setItem("userToken", "true");
-};
+    this.setState({ redirection: true });
+  };
 
-//VIM Calling parent function from child.
-  updateDonorProfileState=(props)=>{
-    console.log(this.props);
+  //VIM Calling parent function from child.
+  updateDonorProfileState = (props) => {
+    console.log("reached user details update");
+    <Redirect to='/Maincontent' />
     //this.props.params.updateDonorProfileState();
   };
 
   updateUserInfo = () => () => {
     //Fetching current user unique id.
-    var userid=firebase.auth().currentUser.uid;
+    var userid = firebase.auth().currentUser.uid;
     //Collecting data from state.
     var userentry = {
-        uid: userid,
-        donorstatus:true,
-        name:this.state.name,
-        age:this.state.age,
-        bloodgroup:this.state.bloodgroup,
-        weight:this.state.weight,
-        mobile:this.state.mobile,
-        gender:this.state.gender,
-        state:this.state.state,
-        district:this.state.district,
+      uid: userid,
+      donorstatus: true,
+      name: this.state.name,
+      age: this.state.age,
+      bloodgroup: this.state.bloodgroup,
+      weight: this.state.weight,
+      mobile: this.state.mobile,
+      gender: this.state.gender,
+      state: this.state.state,
+      district: this.state.district,
     };
 
     //Validation of form data.
-      if(userentry.name==''||userentry.age<18||userentry.weight<50||userentry.bloodgroup==''||userentry.district==''||userentry.mobile.length!=10)
-      {
-        this.setState({alertbox:true});
+    if (userentry.name == '' || userentry.age < 18 || userentry.weight < 50 || userentry.bloodgroup == '' || userentry.district == '' || userentry.mobile.length != 10) {
+      this.setState({ alertbox: true });
+    }
+    else {
+      //Adding new entry to 'users'(it will be dynamic) with finded custom key.
+      if (userid != null) {
+        firebase
+          .database()
+          .ref("/users")
+          .child(userid)
+          .set(userentry, (error) => {
+            if (error) {
+              alert(error);
+            } else {
+              //Succes alert snackbar.
+              this.setState({ alertbox2: true });
+              //Setting token on localstorage for user profile details tracking.
+              this.profileInfoTokenSet();
+            }
+          });
       }
-      else
-      {
-         //Adding new entry to 'users'(it will be dynamic) with finded custom key.
-          if (userid != null) {
-            firebase
-                .database()
-                .ref("/users")
-                .child(userid)
-                .set(userentry,(error) => {
-                    if (error) {
-                        alert(error);
-                    } else {
-                       //Succes alert snackbar.
-                       this.setState({alertbox2:true});
-                      //Setting token on localstorage for user profile details tracking.
-                      this.profileInfoTokenSet();
-                      this.updateDonorProfileState();
-                    }
-                });
-              }
-      }
+    }
 
-};
+  };
 
-  componentWillMount(){
+  componentWillMount() {
     this.fetchUserInfo();
   }
 
 
   render() {
     const { classes } = this.props;
+    if (this.state.redirection) {
+      console.log('if');
+      return <Redirect to='/MainContent' />;
+    }
     return (
       <div className={classes.container}>
-      <form noValidate autoComplete="on">
-       <TextField
-          required
-          id="name"
-          label="Name"
-          value={this.state.name}
-          className={classes.textField}
-          onChange={this.handleChange('name')}
-          margin="normal"
-          helperText="Your publicly visible username"
-        />
+        <form noValidate autoComplete="on">
           <TextField
-          id="select-gender"
-          select
-          className={classes.textField}
-          value={this.state.gender}
-          onChange={this.handleChange('gender')}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu,
-            },
-          }}
-          helperText="Please select your gender"
-          margin="normal"
-        >
-          {gender.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          required
-          id="age"
-          label="Age"
-          value={this.state.age}
-          onChange={this.handleChange('age')}
-          type="number"
-          className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          helperText="Your age must be above 18"
-          margin="normal"
-        />
-        <TextField
-          required
-          id="weight"
-          label="Weight"
-          value={this.state.weight}
-          onChange={this.handleChange('weight')}
-          type="number"
-          className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          helperText="Your weight must be above 50kg"
-          margin="normal"
-        />
-         <TextField
-          required
-          id="select-bloodgroup"
-          label="Blood Group"
-          select
-          className={classes.textField}
-          value={this.state.bloodgroup}
-          onChange={this.handleChange('bloodgroup')}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu,
-            },
-          }}
-          helperText="Please select your blood group"
-          margin="normal"
-        >
-          {groups.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          required
-          id="select-state"
-          label="State"
-          select
-          className={classes.textField}
-          value={this.state.state}
-          onChange={this.handleChange('state')}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu,
-            },
-          }}
-          helperText="Please select your state"
-          margin="normal"
-        >
-          {states.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          required
-          id="select-district"
-          label="District"
-          select
-          className={classes.textField}
-          value={this.state.district}
-          onChange={this.handleChange('district')}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu,
-            },
-          }}
-          helperText="Please select your district"
-          margin="normal"
-        >
-          {districts.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          required
-          id="mobile"
-          label="Mobile Number"
-          value={this.state.mobile}
-          onChange={this.handleChange('mobile')}
-          type="number"
-          className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          helperText="Your registered mobile number"
-          margin="normal"
-          maxLength={10}
-          
-        />
-        
-      </form>
-      <Button variant="outlined" className={classes.button} onClick={this.clearall.bind(this)} >
-        Clear
+            required
+            id="name"
+            label="Name"
+            value={this.state.name}
+            className={classes.textField}
+            onChange={this.handleChange('name')}
+            margin="normal"
+            helperText="Your publicly visible username"
+          />
+          <TextField
+            id="select-gender"
+            select
+            className={classes.textField}
+            value={this.state.gender}
+            onChange={this.handleChange('gender')}
+            SelectProps={{
+              MenuProps: {
+                className: classes.menu,
+              },
+            }}
+            helperText="Please select your gender"
+            margin="normal"
+          >
+            {gender.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            required
+            id="age"
+            label="Age"
+            value={this.state.age}
+            onChange={this.handleChange('age')}
+            type="number"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            helperText="Your age must be above 18"
+            margin="normal"
+          />
+          <TextField
+            required
+            id="weight"
+            label="Weight"
+            value={this.state.weight}
+            onChange={this.handleChange('weight')}
+            type="number"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            helperText="Your weight must be above 50kg"
+            margin="normal"
+          />
+          <TextField
+            required
+            id="select-bloodgroup"
+            label="Blood Group"
+            select
+            className={classes.textField}
+            value={this.state.bloodgroup}
+            onChange={this.handleChange('bloodgroup')}
+            SelectProps={{
+              MenuProps: {
+                className: classes.menu,
+              },
+            }}
+            helperText="Please select your blood group"
+            margin="normal"
+          >
+            {groups.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            required
+            id="select-state"
+            label="State"
+            select
+            className={classes.textField}
+            value={this.state.state}
+            onChange={this.handleChange('state')}
+            SelectProps={{
+              MenuProps: {
+                className: classes.menu,
+              },
+            }}
+            helperText="Please select your state"
+            margin="normal"
+          >
+            {states.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            required
+            id="select-district"
+            label="District"
+            select
+            className={classes.textField}
+            value={this.state.district}
+            onChange={this.handleChange('district')}
+            SelectProps={{
+              MenuProps: {
+                className: classes.menu,
+              },
+            }}
+            helperText="Please select your district"
+            margin="normal"
+          >
+            {districts.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            required
+            id="mobile"
+            label="Mobile Number"
+            value={this.state.mobile}
+            onChange={this.handleChange('mobile')}
+            type="number"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            helperText="Your registered mobile number"
+            margin="normal"
+            maxLength={10}
+
+          />
+
+        </form>
+        <Button variant="outlined" className={classes.button} onClick={this.clearall.bind(this)} >
+          Clear
       </Button>
-         <Button variant="outlined" className={classes.button} onClick={this.updateUserInfo().bind(this)}>
-        Save & Continue
+        <Button variant="outlined" className={classes.button} onClick={this.updateUserInfo().bind(this)}>
+          Save & Continue
       </Button>
 
-      
-      <Snackbar
+
+        <Snackbar
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'center',
           }}
           open={this.state.alertbox}
           autoHideDuration={6000}
-          onClose={()=>this.setState({alertbox:false})}
+          onClose={() => this.setState({ alertbox: false })}
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
@@ -335,7 +338,7 @@ class UserDetailsCollection extends React.Component {
               aria-label="Close"
               color="inherit"
               className={classes.close}
-              onClick={()=>this.setState({alertbox:false})}
+              onClick={() => this.setState({ alertbox: false })}
             >
               <CloseIcon />
             </IconButton>,
@@ -349,7 +352,7 @@ class UserDetailsCollection extends React.Component {
           }}
           open={this.state.alertbox2}
           autoHideDuration={3000}
-          onClose={()=>this.setState({alertbox2:false})}
+          onClose={() => this.setState({ alertbox2: false })}
           ContentProps={{
             'aria-describedby': 'message-id2',
           }}
@@ -360,7 +363,7 @@ class UserDetailsCollection extends React.Component {
               aria-label="Close"
               color="inherit"
               className={classes.close}
-              onClick={()=>this.setState({alertbox2:false})}
+              onClick={() => this.setState({ alertbox2: false })}
             >
               <CloseIcon />
             </IconButton>,
@@ -422,7 +425,7 @@ const groups = [
     value: 'AB-',
     label: 'AB-',
   },
- 
+
 ];
 
 const states = [

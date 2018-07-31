@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
+import { Avatar, IconButton, } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import Phone from '@material-ui/icons/Phone';
@@ -48,6 +48,16 @@ const styles = theme => ({
 		alignItems: 'center',
 		marginRight: 20,
 	},
+	callButton: {
+		position: 'fixed',
+		top: 200,
+		right: 25,
+	},
+	avatarB: {
+		color: '#fff',
+		backgroundColor: '#007c91',
+
+	},
 });
 
 
@@ -83,6 +93,13 @@ class UserInfo extends React.Component {
 					<p className={classes.statusTitle} >Christy Babu</p>
 				</div>
 				<div className={classes.details}>
+
+					{/*Call Button*/}
+					<IconButton onClick={() => <a href="tel:+918138802628" />}>
+						<Avatar className={classes.avatarB}>
+							<Phone />
+						</Avatar>
+					</IconButton>
 					{/*Passing label and data for each fields by iterating 'RowData'.*/}
 					<RowData fieldlabel={'Blood Group'} fieldvalue={'B-'} />
 					<RowData fieldlabel={'Donor Status'} fieldvalue={'Ready'} />
@@ -91,6 +108,7 @@ class UserInfo extends React.Component {
 					<RowData fieldlabel={'District'} fieldvalue={'Ernakulam'} />
 					<RowData fieldlabel={'Contact'} fieldvalue={'8138802628'} />
 				</div>
+
 			</div>
 		);
 	}

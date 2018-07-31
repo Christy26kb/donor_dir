@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import OfflinePinIcon from '@material-ui/icons/OfflinePin';
-import Phone from '@material-ui/icons/Phone';
-import { Link, Redirect,withRouter } from 'react-router-dom';
-import UserDetailsCollection from './UserDetailsCollection.js';
-import Withback_Appbar from '../components/Withback_Appbar.js';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -22,7 +17,7 @@ const styles = theme => ({
   },
 
   text: {
-    fontSize:15,
+    fontSize: 15,
     marginLeft: 20,
     color: 'grey',
     '&:link': {
