@@ -10,7 +10,7 @@ const styles = theme => ({
     '&$colorChecked': {
       color: '#007c91',
       '& + $colorBar': {
-        backgroundColor: '#007c91',
+        backgroundColor: '#06a7ad',
       },
     },
   },

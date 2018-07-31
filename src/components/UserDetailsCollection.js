@@ -163,8 +163,8 @@ class UserDetailsCollection extends React.Component {
 
   render() {
     const { classes } = this.props;
+    //Redirecting to 'MainContent' after saving user info.
     if (this.state.redirection) {
-      console.log('if');
       return <Redirect to='/MainContent' />;
     }
     return (
