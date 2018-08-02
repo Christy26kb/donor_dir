@@ -142,10 +142,12 @@ class SearchTab extends React.Component {
           </Tabs>
         </AppBar>
 
+        {/*Error:Data on currentDataBuffer dont get initialized to empty.if a request doesnt return data will get assigned the previously fetched data.*/}
+
         {value === 0 && <TabContainer>Offline directory list</TabContainer>}
         {value === 1 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = []}
+          {currentDataBuffer = null}
           {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
