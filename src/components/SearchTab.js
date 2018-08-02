@@ -84,15 +84,7 @@ class SearchTab extends React.Component {
       value: 0,
       isLoading: true,
       empty: false,
-      orgdata: [],
-      Apos: [],
-      Aneg: [],
-      Bpos: [],
-      Bneg: [],
-      Opos: [],
-      Oneg: [],
-      ABpos: [],
-      ABneg: [],
+      currentTabData: [],
     };
   }
 
@@ -101,17 +93,17 @@ class SearchTab extends React.Component {
     this.setState({ value });
   };
 
-  fetchData = (bg_state, bgroup) => () => {
-    console.log(this);
+  fetchData = (bgroup) => () => {
+    //console.log(bg_state, bgroup);
     firebase
       .database()
       .ref("/users")
       .orderByChild("bloodgroup")
-      .equalTo('B-')
+      .equalTo(bgroup)
       .on("value", (data) => {
         if (data.val() != undefined) {
           //console.log(Object.values(data.val()));
-          this.setState({ Apos: Object.values(data.val()), isLoading: false });
+          this.setState({ currentTabData: Object.values(data.val()), isLoading: false });
         }
         else {
           this.setState({ isLoading: false, empty: true });
@@ -124,7 +116,7 @@ class SearchTab extends React.Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-    var { Apos_e, Bpos_e } = [];
+    var { currentDataBuffer } = [];
     const loader = <CircularProgress color="inherit" size={20} />;
     const empty_e = <p>No results found!</p>;
     return (
@@ -139,32 +131,66 @@ class SearchTab extends React.Component {
           >
 
             <Tab label="Offline" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="A+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("Apos", "A+").bind()} />
-            <Tab label="B+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="O+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="AB+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="A-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="B-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="O-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="AB-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="A+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("A+").bind()} />
+            <Tab label="A-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("A-").bind()} />
+            <Tab label="B+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("B+").bind()} />
+            <Tab label="B-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("B-").bind()} />
+            <Tab label="O+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("O+").bind()} />
+            <Tab label="O-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("O+").bind()} />
+            <Tab label="AB+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("AB+").bind()} />
+            <Tab label="AB-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("AB-").bind()} />
           </Tabs>
         </AppBar>
 
         {value === 0 && <TabContainer>Offline directory list</TabContainer>}
         {value === 1 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {Apos_e = this.state.Apos.map((item) => <UserTile key={item.uid} data={item} />)}
+          {currentDataBuffer = []}
+          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 2 && <TabContainer>
-
+          {this.state.isLoading ? loader : null}
+          {currentDataBuffer = null}
+          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
         </TabContainer>}
-        {value === 3 && <TabContainer>B+</TabContainer>}
-        {value === 4 && <TabContainer>B-</TabContainer>}
-        {value === 5 && <TabContainer>AB-</TabContainer>}
-        {value === 6 && <TabContainer>AB+</TabContainer>}
-        {value === 7 && <TabContainer>O+</TabContainer>}
-        {value === 8 && <TabContainer>O+</TabContainer>}
+        {value === 3 && <TabContainer>
+          {this.state.isLoading ? loader : null}
+          {currentDataBuffer = null}
+          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
+        </TabContainer>}
+        {value === 4 && <TabContainer>
+          {this.state.isLoading ? loader : null}
+          {currentDataBuffer = null}
+          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
+        </TabContainer>}
+        {value === 5 && <TabContainer>
+          {this.state.isLoading ? loader : null}
+          {currentDataBuffer = null}
+          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
+        </TabContainer>}
+        {value === 6 && <TabContainer>
+          {this.state.isLoading ? loader : null}
+          {currentDataBuffer = null}
+          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
+        </TabContainer>}
+        {value === 7 && <TabContainer>
+          {this.state.isLoading ? loader : null}
+          {currentDataBuffer = null}
+          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
+        </TabContainer>}
+        {value === 8 && <TabContainer>
+          {this.state.isLoading ? loader : null}
+          {currentDataBuffer = null}
+          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
+        </TabContainer>}
 
         {/*Filter Button*/}
         <div className={classes.filterButton}>
