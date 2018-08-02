@@ -5,6 +5,7 @@ export default class MainContent extends Component {
   render() {
     return (
       <div >
+        <p style={{ color: 'grey', marginBottom: 30 }}>Search by  blood groups</p>
         <SearchTab />
       </div>
     );

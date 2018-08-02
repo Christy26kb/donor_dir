@@ -76,8 +76,7 @@ class UserInfo extends React.Component {
 	};
 
 	render() {
-		const { classes, match, location, history } = this.props;
-		console.log(this.state.dataitem);
+		const { classes } = this.props;
 		return (
 			<div >
 				<Withback_Appbar />
@@ -87,23 +86,25 @@ class UserInfo extends React.Component {
 					</Avatar>
 				</div>
 				<div className={classes.UserInfo_base} >
-					<p className={classes.statusTitle} >Christy Babu</p>
+					<p className={classes.statusTitle} >{this.state.dataitem != undefined ? this.state.dataitem.name : ''}</p>
 				</div>
 				<div className={classes.details}>
 
 					{/*Call Button*/}
-					<IconButton onClick={() => <a href="tel:+918138802628" />}>
-						<Avatar className={classes.avatarB}>
-							<Phone />
-						</Avatar>
-					</IconButton>
+					<a href={this.state.dataitem != undefined ? `tel:+91${this.state.dataitem.mobile}` : ''}>
+						<IconButton >
+							<Avatar className={classes.avatarB}>
+								<Phone />
+							</Avatar>
+						</IconButton>
+					</a>
 					{/*Passing label and data for each fields by iterating 'RowData'.*/}
-					<RowData fieldlabel={'Blood Group'} fieldvalue={'B-'} />
-					<RowData fieldlabel={'Donor Status'} fieldvalue={'Ready'} />
-					<RowData fieldlabel={'Gender'} fieldvalue={'Male'} />
-					<RowData fieldlabel={'State'} fieldvalue={'Kerala'} />
-					<RowData fieldlabel={'District'} fieldvalue={'Ernakulam'} />
-					<RowData fieldlabel={'Contact'} fieldvalue={'8138802628'} />
+					<RowData fieldlabel={'Blood Group'} fieldvalue={this.state.dataitem != undefined ? this.state.dataitem.bloodgroup : ''} />
+					<RowData fieldlabel={'Donor Status'} fieldvalue={this.state.dataitem != undefined && this.state.dataitem.donorstatus ? 'Ready' : 'Not Ready'} />
+					<RowData fieldlabel={'Gender'} fieldvalue={this.state.dataitem != undefined ? this.state.dataitem.gender : ''} />
+					<RowData fieldlabel={'State'} fieldvalue={this.state.dataitem != undefined ? this.state.dataitem.state : ''} />
+					<RowData fieldlabel={'District'} fieldvalue={this.state.dataitem != undefined ? this.state.dataitem.district : ''} />
+					<RowData fieldlabel={'Contact'} fieldvalue={this.state.dataitem != undefined ? this.state.dataitem.mobile : ''} />
 				</div>
 
 			</div>

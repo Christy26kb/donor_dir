@@ -107,7 +107,7 @@ class SearchTab extends React.Component {
       .database()
       .ref("/users")
       .orderByChild("bloodgroup")
-      .equalTo('A+')
+      .equalTo('B-')
       .on("value", (data) => {
         if (data.val() != undefined) {
           //console.log(Object.values(data.val()));

@@ -24,7 +24,7 @@ const styles = {
     justifyContent: 'center',
     marginTop: 35,
     minWidth: 200,
-    minHeight: 5,
+    minHeight: 20,
     borderRadius: 5,
     backgroundColor: '#E0E0E0',
     '&:link': {
