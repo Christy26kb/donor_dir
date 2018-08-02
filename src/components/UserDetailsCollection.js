@@ -107,11 +107,11 @@ class UserDetailsCollection extends React.Component {
   };
 
   //VIM Calling parent function from child.
-  updateDonorProfileState = (props) => {
-    console.log("reached user details update");
-    <Redirect to='/Maincontent' />
-    //this.props.params.updateDonorProfileState();
-  };
+  /* updateDonorProfileState = (props) => {
+     console.log("reached user details update");
+     <Redirect to='/Maincontent' />
+     //this.props.params.updateDonorProfileState();
+   };*/
 
   updateUserInfo = () => () => {
     //Fetching current user unique id.

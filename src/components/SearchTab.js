@@ -102,12 +102,12 @@ class SearchTab extends React.Component {
   };
 
   fetchData = (bg_state, bgroup) => () => {
-    console.log(bg_state, bgroup);
+    console.log(this);
     firebase
       .database()
       .ref("/users")
       .orderByChild("bloodgroup")
-      .equalTo('B-')
+      .equalTo('A+')
       .on("value", (data) => {
         if (data.val() != undefined) {
           //console.log(Object.values(data.val()));
@@ -139,7 +139,7 @@ class SearchTab extends React.Component {
           >
 
             <Tab label="Offline" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
-            <Tab label="A+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("Apos", "A+").bind(this)} />
+            <Tab label="A+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("Apos", "A+").bind()} />
             <Tab label="B+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
             <Tab label="O+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
             <Tab label="AB+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />

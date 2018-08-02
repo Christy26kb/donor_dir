@@ -26,14 +26,6 @@ const styles = {
 };
 
 class App_Bar extends React.Component {
-  _signOut = async () => {
-
-    //Removing the localstorage profileinfoToken(to check if user already fill the form earlier).
-    await localStorage.setItem("userToken", "false");
-    //Logout current user.
-    firebase.auth().signOut();
-  };
-
   render() {
     const { classes } = this.props;
     return (

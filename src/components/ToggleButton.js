@@ -8,7 +8,7 @@ const styles = theme => ({
   colorSwitchBase: {
     color: '#007c91',
     '&$colorChecked': {
-      color: '#007c91',
+      color: '#06a7ad',
       '& + $colorBar': {
         backgroundColor: '#06a7ad',
       },

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { Avatar, IconButton, } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import Phone from '@material-ui/icons/Phone';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Withback_Appbar from '../components/Withback_Appbar.js';
 import RowData from '../components/RowData.js';
 const styles = theme => ({
@@ -78,8 +77,6 @@ class UserInfo extends React.Component {
 
 	render() {
 		const { classes, match, location, history } = this.props;
-		//Pathname for "Withback_Appbar" (BackArrow)->handle.
-		const repath = '/MainContent';
 		console.log(this.state.dataitem);
 		return (
 			<div >

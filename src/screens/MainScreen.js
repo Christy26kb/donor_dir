@@ -6,7 +6,7 @@ import UserDetailsCollection from '../components/UserDetailsCollection.js';
 import UserInfo from '../components/UserInfo.js';
 import './MScreen.css';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import Withback_Appbar from '../components/Withback_Appbar.js';
+import SettingsScreen from './SettingsScreen.js';
 export default class MainScreen extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +56,7 @@ export default class MainScreen extends Component {
               render={(props) => <UserDetailsCollection {...props} updateDonorProfileState={this.updateDonorProfileState()} />}
             />
             <Route exact path='/MainContent/UserInfo' component={UserInfo} />
+            <Route exact path='/MainContent/SettingsScreen' component={SettingsScreen} />
           </Switch>
           {this.state.DonorProfile ? <Redirect to='/MainContent' /> : <Redirect to='/UserDetailsCollection' />}
         </div>
