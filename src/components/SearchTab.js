@@ -103,10 +103,10 @@ class SearchTab extends React.Component {
       .on("value", (data) => {
         if (data.val() != undefined) {
           //console.log(Object.values(data.val()));
-          this.setState({ currentTabData: Object.values(data.val()), isLoading: false });
+          this.setState({ currentTabData: Object.values(data.val()), isLoading: false, empty: false });
         }
         else {
-          this.setState({ isLoading: false, empty: true });
+          this.setState({ isLoading: false, empty: true, currentTabData: [] });
         }
       });
 
@@ -116,7 +116,7 @@ class SearchTab extends React.Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-    var { currentDataBuffer } = [];
+    var { Apos, Aneg, Bpos, Bneg, Opos, Oneg, ABpos, ABneg } = [];
     const loader = <CircularProgress color="inherit" size={20} />;
     const empty_e = <p>No results found!</p>;
     return (
@@ -147,50 +147,42 @@ class SearchTab extends React.Component {
         {value === 0 && <TabContainer>Offline directory list</TabContainer>}
         {value === 1 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = null}
-          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {Apos = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 2 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = null}
-          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {Aneg = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 3 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = null}
-          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {Bpos = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 4 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = null}
-          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {Bneg = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 5 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = null}
-          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {Opos = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 6 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = null}
-          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {Oneg = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 7 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = null}
-          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {ABpos = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
         {value === 8 && <TabContainer>
           {this.state.isLoading ? loader : null}
-          {currentDataBuffer = null}
-          {currentDataBuffer = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {ABneg = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
           {this.state.empty ? empty_e : null}
         </TabContainer>}
 
