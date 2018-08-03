@@ -11,12 +11,20 @@ import { CircularProgress, IconButton, Avatar } from '@material-ui/core';
 import ToggleButton from './ToggleButton.js';
 import './Maincontent.css';
 import { FilterList } from '@material-ui/icons';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+import Dialog from '@material-ui/core/Dialog';
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
       {props.children}
     </Typography>
   );
+}
+
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
 }
 
 TabContainer.propTypes = {
@@ -76,21 +84,38 @@ const styles = theme => ({
   },
   tabSelected: {},
 });
-
 class SearchTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
       value: 0,
       isLoading: true,
       empty: false,
       currentTabData: [],
+      orgDataStack: [],
     };
   }
 
+  toggleFilter = () => () => {
+    if (this.state.open) {
+      this.setState({ open: false });
+    }
+    else {
+      this.setState({ open: true });
+    }
+
+  };
 
   handleChange = (event, value) => {
     this.setState({ value });
+  };
+
+  filterData = (distt, statt) => () => {
+    const data = this.state.currentTabData;
+    var update = [];
+    update = data.filter((user) => user.district.toUpperCase() == distt.toUpperCase() || user.state.toUpperCase() == statt.toUpperCase());
+    this.setState({ currentTabData: update, orgDataStack: this.state.currentTabData });
   };
 
   fetchData = (bgroup) => () => {
@@ -142,8 +167,6 @@ class SearchTab extends React.Component {
           </Tabs>
         </AppBar>
 
-        {/*Error:Data on currentDataBuffer dont get initialized to empty.if a request doesnt return data will get assigned the previously fetched data.*/}
-
         {value === 0 && <TabContainer>Offline directory list</TabContainer>}
         {value === 1 && <TabContainer>
           {this.state.isLoading ? loader : null}
@@ -188,16 +211,93 @@ class SearchTab extends React.Component {
 
         {/*Filter Button*/}
         <div className={classes.filterButton}>
-          <IconButton>
+          <IconButton onClick={this.toggleFilter().bind()}>
             <Avatar className={classes.avatar}>
               <FilterList />
             </Avatar>
           </IconButton>
         </div>
+        <Dialog
+          fullScreen
+          open={this.state.open}
+          onClose={this.toggleFilter}
+          TransitionComponent={Transition}
+        >
+          <div style={{ backgroundColor: '#ffffff' }}>
+            <p>Filters</p>
+          </div>
+        </Dialog>
       </div>
     );
   }
 }
+
+//Data list for states and district filters.
+const states = [
+  {
+    value: 'kerala',
+    label: 'Kerala',
+  },
+];
+
+const districts = [
+  {
+    value: 'ernakulam',
+    label: 'Ernakulam',
+  },
+  {
+    value: 'idukki',
+    label: 'Idukki',
+  },
+  {
+    value: 'thrissur',
+    label: 'Thrissur',
+  },
+  {
+    value: 'trivandrum',
+    label: 'Trivandrum',
+  },
+  {
+    value: 'kollam',
+    label: 'Kollam',
+  },
+  {
+    value: 'alappuzha',
+    label: 'Alappuzha',
+  },
+  {
+    value: 'pathanamthitta',
+    label: 'Pathanamthitta',
+  },
+  {
+    value: 'kottayam',
+    label: 'Kottayam',
+  },
+  {
+    value: 'palakkad',
+    label: 'Palakkad',
+  },
+  {
+    value: 'malappuram',
+    label: 'Malappuram',
+  },
+  {
+    value: 'kozhikode',
+    label: 'Kozhikode',
+  },
+  {
+    value: 'wayanad',
+    label: 'Wayanad',
+  },
+  {
+    value: 'kannur',
+    label: 'Kannur',
+  },
+  {
+    value: 'kasargode',
+    label: 'Kasargode',
+  },
+];
 
 SearchTab.propTypes = {
   classes: PropTypes.object.isRequired,
