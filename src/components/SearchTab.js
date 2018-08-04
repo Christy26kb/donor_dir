@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import UserTile from './UserTile.js';
 import firebase from 'firebase';
-import { CircularProgress, IconButton, Avatar } from '@material-ui/core';
+import { CircularProgress, IconButton, Avatar, MenuItem, TextField, Button } from '@material-ui/core';
 import ToggleButton from './ToggleButton.js';
 import './Maincontent.css';
 import { FilterList } from '@material-ui/icons';
@@ -83,11 +83,34 @@ const styles = theme => ({
     },
   },
   tabSelected: {},
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: 35,
+    backgroundColor: '#ffffff',
+    marginLeft: 15,
+  },
+  textField: {
+    marginTop: 25,
+    marginBottom: 15,
+    marginLeft: 20,
+    marginRight: 20,
+    width: 230,
+  },
+  button: {
+    margin: theme.spacing.unit,
+    marginRight: 40,
+    marginLeft: 10,
+  },
 });
+
+
 class SearchTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      district: '',
+      state: 'Kerala',
       open: false,
       value: 0,
       isLoading: true,
@@ -111,11 +134,28 @@ class SearchTab extends React.Component {
     this.setState({ value });
   };
 
-  filterData = (distt, statt) => () => {
-    const data = this.state.currentTabData;
+  handleFilterChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
+  clearFilters() {
+
+    this.setState({
+      state: "Kerala",
+      district: "Ernakulam",
+      currentTabData: this.state.orgDataStack,
+    });
+  };
+
+  filterData = () => () => {
+    const data = this.state.orgDataStack;
     var update = [];
-    update = data.filter((user) => user.district.toUpperCase() == distt.toUpperCase() || user.state.toUpperCase() == statt.toUpperCase());
-    this.setState({ currentTabData: update, orgDataStack: this.state.currentTabData });
+    var distt = this.state.district;
+    var statt = this.state.state;
+    update = data.filter((user) => user.district.toUpperCase() == distt.toUpperCase() && user.state.toUpperCase() == statt.toUpperCase());
+    this.setState({ currentTabData: update, open: false });
   };
 
   fetchData = (bgroup) => () => {
@@ -127,11 +167,15 @@ class SearchTab extends React.Component {
       .equalTo(bgroup)
       .on("value", (data) => {
         if (data.val() != undefined) {
-          //console.log(Object.values(data.val()));
-          this.setState({ currentTabData: Object.values(data.val()), isLoading: false, empty: false });
+          this.setState({
+            currentTabData: Object.values(data.val()),
+            orgDataStack: Object.values(data.val()),
+            isLoading: false,
+            empty: false
+          });
         }
         else {
-          this.setState({ isLoading: false, empty: true, currentTabData: [] });
+          this.setState({ isLoading: false, empty: true, currentTabData: [], orgDataStack: [] });
         }
       });
 
@@ -220,13 +264,70 @@ class SearchTab extends React.Component {
         <Dialog
           fullScreen
           open={this.state.open}
-          onClose={this.toggleFilter}
+          onClose={this.toggleFilter().bind()}
           TransitionComponent={Transition}
         >
-          <div style={{ backgroundColor: '#ffffff' }}>
-            <p>Filters</p>
+          <div className={classes.container}>
+            <IconButton style={{ marginBottom: 20 }} onClick={this.toggleFilter().bind()} >
+              <CloseIcon />
+            </IconButton>
+            <p style={{ color: 'grey', marginLeft: 20 }}>Filter by</p>
+            <form noValidate autoComplete="on">
+              <TextField
+                required
+                id="filter-by-state"
+                label="State"
+                select
+                value={this.state.state}
+                onChange={this.handleFilterChange('state')}
+                className={classes.textField}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText="Sort by state"
+                margin="normal"
+              >
+                {states.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                required
+                id="filter-by-district"
+                label="District"
+                select
+                value={this.state.district}
+                onChange={this.handleFilterChange('district')}
+                className={classes.textField}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText="Sort by district"
+                margin="normal"
+              >
+                {districts.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </form>
+            <Button variant="outlined" style={{ marginTop: 20 }} className={classes.button} onClick={this.clearFilters.bind(this)} >
+              Clear filters
+      </Button>
+            <Button variant="outlined" className={classes.button} onClick={this.filterData().bind()}>
+              Apply filters
+      </Button>
           </div>
         </Dialog>
+
       </div>
     );
   }

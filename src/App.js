@@ -1,10 +1,10 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import AuthFlowScreen from "./navigation/AuthFlowScreen.js";
 import MainScreen from "./screens/MainScreen.js";
 import firebase from 'firebase';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyB7gr2G87e7927TdqH2bfI5BFmshSPsosA",
@@ -23,61 +23,60 @@ class App extends Component {
     this._initializeAuth();
     //this._bootstrapAsync();
     this.state = {
-        signedin: false,
-        isloading:true
+      signedin: false,
+      isloading: true
     };
-}
+  }
 
- _initializeAuth = async () => {
-        await firebase.auth().onAuthStateChanged((user) => {
-            if (user == null) {
-                // TODO: start sign-in flow
-                //alert("Signed off");
-                this.setState({isloading:false,signedin:false});
-            } else {
-                // TODO: start actual work
-                //alert("Signed on");
-                this.setState({signedin:true,isloading:false});
+  _initializeAuth = async () => {
+    await firebase.auth().onAuthStateChanged((user) => {
+      if (user == null) {
+        // TODO: start sign-in flow
+        //alert("Signed off");
+        this.setState({ isloading: false, signedin: false });
+      } else {
+        // TODO: start actual work
+        //alert("Signed on");
+        this.setState({ signedin: true, isloading: false });
 
-            }
-        });
-    };
+      }
+    });
+  };
 
-componentWillUnmount() {
-  this.unregisterAuthObserver();
-}
+  componentWillUnmount() {
+    this.unregisterAuthObserver();
+  }
 
 
   render() {
 
     //Device Dimensions.
-    const height=window.screen.height;
+    const height = window.screen.height;
 
-      if(this.state.isloading)
-      {
-        return(
-          <div style={{display:'flex',justifyContent:'center',alignItems:'center',marginTop:height/2.8}}>
-          <CircularProgress color="primary" size={50} />
+    if (this.state.isloading) {
+      return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: height / 2.8 }}>
+          <CircularProgress style={{ color: '#007c91' }} size={50} />
         </div>
+      );
+    }
+    else {
+
+      if (!this.state.signedin) {
+        return (
+          <AuthFlowScreen />
         );
       }
-      else{
-
-        if(!this.state.signedin){
-          return (
-            <AuthFlowScreen/>
-        );
-        }
-      else{
+      else {
         return (
           <BrowserRouter>
-          <MainScreen/>
+            <MainScreen />
           </BrowserRouter>
-      );
+        );
       }
 
-      }
-   
+    }
+
   }
 }
 

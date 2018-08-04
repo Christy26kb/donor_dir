@@ -6,8 +6,8 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import Phone from '@material-ui/icons/Phone';
 import { withRouter } from 'react-router-dom';
-import Withback_Appbar from '../components/Withback_Appbar.js';
-import RowData from '../components/RowData.js';
+import Withback_Appbar from './Withback_Appbar.js';
+import RowData from './RowData.js';
 const styles = theme => ({
 	root: {
 		marginTop: 5,

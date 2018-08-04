@@ -7,6 +7,7 @@ import UserInfo from '../components/UserInfo.js';
 import './MScreen.css';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import SettingsScreen from './SettingsScreen.js';
+import GuidelinesScreen from './GuidelinesScreen.js';
 export default class MainScreen extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +42,6 @@ export default class MainScreen extends Component {
   };
 
   render() {
-    console.log("MainScreen render");
     return (
       <div>
         <_AppBar />
@@ -57,6 +57,7 @@ export default class MainScreen extends Component {
             />
             <Route exact path='/MainContent/UserInfo' component={UserInfo} />
             <Route exact path='/MainContent/SettingsScreen' component={SettingsScreen} />
+            <Route exact path='/MainContent/GuidelinesScreen' component={GuidelinesScreen} />
           </Switch>
           {this.state.DonorProfile ? <Redirect to='/MainContent' /> : <Redirect to='/UserDetailsCollection' />}
         </div>

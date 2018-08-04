@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { IconButton, Drawer, List, ListItem, Divider, Toolbar, Chip } from '@material-ui/core/';
+import { IconButton, Drawer, List, ListItem, Divider, Toolbar, Chip } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
@@ -97,6 +97,9 @@ class Main_Drawer extends React.Component {
               <ListItem style={{ marginTop: 150, flexDirection: 'column', justifyContent: 'center' }}>
                 <NavLink to="/MainContent" className={classes.listitems}>
                   <p style={{ color: 'inherit' }}>Search</p>
+                </NavLink>
+                <NavLink to="/MainContent/GuidelinesScreen" className={classes.listitems}>
+                  <p style={{ color: 'inherit' }}>Donor Guidelines</p>
                 </NavLink>
                 <NavLink to="/MainContent/SettingsScreen" className={classes.listitems}>
                   <p style={{ color: 'inherit' }}>Settings</p>

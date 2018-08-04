@@ -3,16 +3,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBack from '@material-ui/icons/es/ArrowBack';
 import firebase from 'firebase';
-import {Redirect,Link} from 'react-router-dom';
-import MainContent from './MainContent.js';
 const styles = {
   root: {
     flexGrow: 1,
-    flexWrap:'wrap',
+    flexWrap: 'wrap',
   },
   flex: {
     flex: 1,
@@ -21,9 +18,9 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
-  appbar:{
-    backgroundColor:'#007c91',
-    width:'100%',
+  appbar: {
+    backgroundColor: '#007c91',
+    width: '100%',
   },
 };
 
@@ -45,16 +42,16 @@ class Withback_Appbar extends React.Component {
     this.setState({ anchorEl: null });
   };
 
-  _signOut = async ()=>{
+  _signOut = async () => {
 
     //Removing the localstorage profileinfoToken(to check if user already fill the form earlier).
-    await localStorage.setItem("userToken","false");
+    await localStorage.setItem("userToken", "false");
     //Logout current user.
     firebase.auth().signOut();
     this.setState({ anchorEl: null });
   };
 
-  navBack = ()=>{
+  navBack = () => {
     window.history.back();
   };
 
@@ -66,8 +63,8 @@ class Withback_Appbar extends React.Component {
       <div className={classes.root}>
         <AppBar position="fixed" className={classes.appbar}>
           <Toolbar>
-          <IconButton className={classes.backButton} color="inherit" aria-label="back">
-          <ArrowBack  onClick={this.navBack}/>
+            <IconButton className={classes.backButton} color="inherit" aria-label="back">
+              <ArrowBack onClick={this.navBack} />
             </IconButton>
           </Toolbar>
         </AppBar>

@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 import './AFstyles.css';
@@ -14,20 +14,20 @@ const uiConfig = {
   signInOptions: [
     firebase.auth.PhoneAuthProvider.PROVIDER_ID,
   ],
- 
+
 };
 
 
 export default class AuthFlowScreen extends Component {
-   
+
   render() {
 
-        return (
-            <div className='base-container'>
-              <h3 className='header-text'>Join our community</h3>
-              <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
-            </div>
-          );
+    return (
+      <div className='base-container'>
+        <h3 className='header-text'>Join our community</h3>
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+      </div>
+    );
   }
 }
 
