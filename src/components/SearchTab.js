@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import UserTile from './UserTile.js';
 import firebase from 'firebase';
 import { CircularProgress, IconButton, Avatar, MenuItem, TextField, Button } from '@material-ui/core';
-import ToggleButton from './ToggleButton.js';
 import './Maincontent.css';
 import { FilterList } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
@@ -179,10 +178,24 @@ class SearchTab extends React.Component {
         }
       });
 
-
   };
 
   render() {
+    /*if ('caches' in window) {
+      window.caches.open('my-cache').then((cache) => {
+        cache.add(new Request('https://donor-dir.firebaseio.com/users/0V2jdbSabmXeWI1vRZIu6uLjAwF2.json',
+          {
+            method: "GET", mode: 'no-cors', headers: new Headers({
+              'Content-Type': 'application/json'
+            })
+          })).then(function () {
+            console.log("Cached");
+          }).catch((err) => {
+            console.log(err);
+          })
+      });
+
+    }*/
     const { classes } = this.props;
     const { value } = this.state;
     var { Apos, Aneg, Bpos, Bneg, Opos, Oneg, ABpos, ABneg } = [];

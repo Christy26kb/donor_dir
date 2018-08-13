@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Avatar, IconButton, } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import Phone from '@material-ui/icons/Phone';
 import { withRouter } from 'react-router-dom';
 import Withback_Appbar from './Withback_Appbar.js';
@@ -57,6 +56,22 @@ const styles = theme => ({
 		backgroundColor: '#007c91',
 
 	},
+	offlineText: {
+		color: 'grey',
+		'&:hover': {
+			color: '#007c91',
+			opacity: 1,
+			textDecoration: 'none',
+		},
+		'&:active': {
+			color: '#007c91',
+			textDecoration: 'none',
+		},
+		'&:focus': {
+			color: '#007c91',
+			textDecoration: 'none',
+		},
+	}
 });
 
 
@@ -65,6 +80,7 @@ class UserInfo extends React.Component {
 		super(props);
 		this.state = {
 			dataitem: this.props.location.userdata,
+			offlineTextData: 'Save record Offline',
 		};
 
 	}
@@ -74,6 +90,21 @@ class UserInfo extends React.Component {
 		location: PropTypes.object.isRequired,
 		history: PropTypes.object.isRequired
 	};
+
+	saveCurrentUserOffline = async () => {
+		const userId = this.state.dataitem.uid;
+		const userData = JSON.stringify(this.state.dataitem);
+		await localStorage.setItem(userId, userData);
+		this.setState({ offlineTextData: 'Record Saved Offline' });
+		console.log(localStorage);
+	};
+
+	checkCurrentUserOffline = async () => {
+		const userId = this.state.dataitem.uid;
+		const userOffline = await localStorage.getItem(userId);
+		this.setState({ offlineTextData: 'Record Saved Offline' ? userOffline : 'Save Record Offline' });
+	};
+
 
 	render() {
 		const { classes } = this.props;
@@ -98,6 +129,7 @@ class UserInfo extends React.Component {
 							</Avatar>
 						</IconButton>
 					</a>
+					<p className={classes.offlineText} onClick={this.saveCurrentUserOffline}>{this.state.offlineTextData}</p>
 					{/*Passing label and data for each fields by iterating 'RowData'.*/}
 					<RowData fieldlabel={'Blood Group'} fieldvalue={this.state.dataitem != undefined ? this.state.dataitem.bloodgroup : ''} />
 					<RowData fieldlabel={'Donor Status'} fieldvalue={this.state.dataitem != undefined && this.state.dataitem.donorstatus ? 'Ready' : 'Not Ready'} />
