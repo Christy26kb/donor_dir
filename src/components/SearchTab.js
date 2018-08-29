@@ -13,6 +13,7 @@ import { FilterList } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
+import { isObject } from 'util';
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -116,8 +117,22 @@ class SearchTab extends React.Component {
       empty: false,
       currentTabData: [],
       orgDataStack: [],
+      offlineRecords: [],
     };
+    this.offlineRecordFetch();
   }
+
+  offlineRecordFetch = async () => {
+    var temp = await localStorage.getItem('offlineRecordsIndex');
+    const offlinedata = JSON.parse(temp);
+    if (offlinedata) {
+      this.setState({ currentTabData: offlinedata, orgDataStack: offlinedata, isLoading: false, empty: false })
+    }
+    else {
+      this.setState({ isLoading: false, empty: true, currentTabData: [], orgDataStack: [] });
+    }
+
+  };
 
   toggleFilter = () => () => {
     if (this.state.open) {
@@ -181,24 +196,9 @@ class SearchTab extends React.Component {
   };
 
   render() {
-    /*if ('caches' in window) {
-      window.caches.open('my-cache').then((cache) => {
-        cache.add(new Request('https://donor-dir.firebaseio.com/users/0V2jdbSabmXeWI1vRZIu6uLjAwF2.json',
-          {
-            method: "GET", mode: 'no-cors', headers: new Headers({
-              'Content-Type': 'application/json'
-            })
-          })).then(function () {
-            console.log("Cached");
-          }).catch((err) => {
-            console.log(err);
-          })
-      });
-
-    }*/
     const { classes } = this.props;
     const { value } = this.state;
-    var { Apos, Aneg, Bpos, Bneg, Opos, Oneg, ABpos, ABneg } = [];
+    var { Apos, Aneg, Bpos, Bneg, Opos, Oneg, ABpos, ABneg, offline } = [];
     const loader = <CircularProgress color="inherit" size={20} />;
     const empty_e = <p>No results found!</p>;
     return (
@@ -212,7 +212,7 @@ class SearchTab extends React.Component {
             classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
           >
 
-            <Tab label="Offline" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} />
+            <Tab label="Offline" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.offlineRecordFetch} />
             <Tab label="A+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("A+").bind()} />
             <Tab label="A-" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("A-").bind()} />
             <Tab label="B+" classes={{ root: classes.tabRoot, selected: classes.tabSelected }} onClick={this.fetchData("B+").bind()} />
@@ -224,7 +224,11 @@ class SearchTab extends React.Component {
           </Tabs>
         </AppBar>
 
-        {value === 0 && <TabContainer>Offline directory list</TabContainer>}
+        {value === 0 && <TabContainer>
+          {this.state.isLoading ? loader : null}
+          {offline = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}
+          {this.state.empty ? empty_e : null}
+        </TabContainer>}
         {value === 1 && <TabContainer>
           {this.state.isLoading ? loader : null}
           {Apos = this.state.currentTabData.map((item) => <UserTile key={item.uid} data={item} />)}

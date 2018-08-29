@@ -82,7 +82,7 @@ class UserInfo extends React.Component {
 			dataitem: this.props.location.userdata,
 			offlineTextData: 'Save record Offline',
 		};
-
+		this.offlineRecordStatus();
 	}
 	//Binding passes props from router to component props.
 	static propTypes = {
@@ -92,19 +92,78 @@ class UserInfo extends React.Component {
 	};
 
 	saveCurrentUserOffline = async () => {
-		const userId = this.state.dataitem.uid;
+		const userId = this.state.dataitem.uid.toString();
+		//Data schema for OfflineRecordsIndex.
+		var ind = {
+			uid: this.state.dataitem.uid,
+			name: this.state.dataitem.name,
+			bloodgroup: this.state.dataitem.bloodgroup,
+			mobile: this.state.dataitem.mobile,
+			state: this.state.dataitem.state,
+			district: this.state.dataitem.district,
+			gender: this.state.dataitem.gender,
+			donorstatus: this.state.dataitem.donorstatus
+
+		};
 		const userData = JSON.stringify(this.state.dataitem);
-		await localStorage.setItem(userId, userData);
-		this.setState({ offlineTextData: 'Record Saved Offline' });
-		console.log(localStorage);
+		//Fetching the offlineRecordsIndex from localStorage.
+		const indexfetch = await localStorage.getItem('offlineRecordsIndex');
+		var append = JSON.parse(indexfetch);
+		var flag = true;
+		//.Checking if the 'offlineRecordsIndex' exists previously.
+		//.If it exists then fetch it and append new entry to it and push it back.
+		if (append) {
+			//.Checking if the userdata entered previously.
+			let temp = append.map((entry) => {
+				if (entry.uid == userId) {
+					flag = false
+				}
+			});
+			if (flag) {
+				append.push(ind);
+				await localStorage.setItem('offlineRecordsIndex', JSON.stringify(append));
+				this.setState({ offlineTextData: 'Record Saved Offline' });
+
+			}
+			//.Removing the current user from 'offlineRecordsIndex' if the user exits and clicks again.
+			else {
+				var updated = append.filter((entry) => entry.uid !== userId);
+				await localStorage.setItem('offlineRecordsIndex', JSON.stringify(updated));
+				this.setState({ offlineTextData: 'Save Record Offline' });
+			}
+			console.log("offlinerecords exists previously");
+
+		}
+		//.If it didn't exist a new index is create with current entry.
+		else {
+			console.log("New offlinercordsindex created ");
+			var freshIndex = [ind];
+			await localStorage.setItem('offlineRecordsIndex', JSON.stringify(freshIndex));
+			this.setState({ offlineTextData: 'Record Saved Offline' });
+		}
+		/*
+		//Sample display of enetered 'offlineRecordsIndex' data. 
+		const datat = await localStorage.getItem('offlineRecordsIndex');
+		console.log(datat);
+		*/
 	};
 
-	checkCurrentUserOffline = async () => {
-		const userId = this.state.dataitem.uid;
-		const userOffline = await localStorage.getItem(userId);
-		this.setState({ offlineTextData: 'Record Saved Offline' ? userOffline : 'Save Record Offline' });
-	};
+	offlineRecordStatus = async () => {
+		if (this.state.dataitem !== undefined) {
+			const userid = this.state.dataitem.uid.toString();
+			const statuscheck = await localStorage.getItem('offlineRecordsIndex');
+			var datapack = JSON.parse(statuscheck);
+			if (datapack) {
+				let temp = datapack.map((entry) => {
+					if (entry.uid == userid) {
+						this.setState({ offlineTextData: 'Record Saved Offline' });
+					}
+				});
 
+			}
+		}
+
+	};
 
 	render() {
 		const { classes } = this.props;
